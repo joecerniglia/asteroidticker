@@ -50,6 +50,7 @@ class ReportForm(FlaskForm):
 # This decorator tells Flask to use this function as a webpage handler/renderer
 @app.route('/', methods=['GET', 'POST'])
 def daysnlunar():
+    global report, calday, complete_date, LD, daysago, count, lastpage
 
     LD=''
     d1=''
@@ -153,7 +154,7 @@ def daysnlunar():
             else:
                 try:
                     #return report
-                    return redirect(url_for('report', pagenum=1))
+                    return redirect(url_for('reportout', pagenum=1, LD=LD))
                 except Exception as e:
                     return str(e)
                     #return 'The NASA server is busy right now. Try again later, or try reducing the size of your parameters.'
@@ -174,18 +175,18 @@ class PageResult:
      for i in self.full_listing[self.page-1]:
        yield i
    def __repr__(self): #used for page linking
-     return "/report/{}".format(self.page+1) #view the next page
+     return "/reportout/{}".format(self.page+1) #view the next page
 
-@app.route('/report/<pagenum>', methods=['GET'])
-def report(pagenum):
-    if 1<session.get("LD"):
+@app.route('/reportout/<pagenum>', methods=['GET'])
+def reportout(pagenum):
+    if 1<int(LD):
         pn=21
     else:
         pn=16
 
-    return render_template('form2.html', report=PageResult(session.get('report'), int(pagenum), pn),
-    calday=session.get('calday'),complete_date=session.get('complete_date'),LD=session.get('LD'),
-    daysago=session.get('daysago'),count=session.get('count'),lastpage=session.get('lastpage'))
+    return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
+    calday=calday,complete_date=complete_date,LD=LD,
+    daysago=daysago,count=count,lastpage=lastpage)
 
 
 if __name__ == '__main__':
