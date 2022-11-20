@@ -52,10 +52,10 @@ class ReportForm(FlaskForm):
 def daysnlunar():
     global report, calday, complete_date, LD, daysago, count, lastpage, pagenum, pn
 
-    report, calday, complete_date, LD, daysago, count, lastpage, pagenum, pn = None, None, None, None, None, None, None, None, None
-    
+    #LD=''
+    #d1=''
     day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
-    r1, r2 = 15, 0
+    r1, r2 = 50, 0
     LD_selection=createList(r1, r2)
     format = '%Y-%m-%d'
     if request.method == 'POST':
@@ -67,13 +67,20 @@ def daysnlunar():
             daysago = int(request.form.get('daysago'))
             LD_str = str(request.form.get('LD'))
             LD = int(request.form.get('LD'))
+            sort=request.form.get("sort")
+            if sort=='size':
+                s1='h'
+                s1_desc='size'
+            else:
+                s1='dist'
+                s1_desc='proximity to Earth'
             #Process the date
             d1 = str((datetime.today() - timedelta(days=daysago)).strftime('%Y-%m-%d'))
             d2 = str((datetime.today() + timedelta(days=daysago)).strftime('%Y-%m-%d'))
             datef=datetime.strptime(d1,format)
             complete_date=datef.strftime("%b %d, %Y")
             calday=calendar.day_name[datef.weekday()]
-            f = (r"https://ssd-api.jpl.nasa.gov/cad.api?dist-max=" + LD_str + "LD&date-min=" + d1 + "&date-max=" + d2 + "&sort=dist")
+            f = (r"https://ssd-api.jpl.nasa.gov/cad.api?dist-max=" + LD_str + "LD&date-min=" + d1 + "&date-max=" + d2 + "&sort=" + s1)
             data = requests.get(f)
             t = json.loads(data.text)
             source=t['signature']['source']
@@ -105,7 +112,7 @@ def daysnlunar():
                 if int(miles.replace(",", ""))<238854:
                     report=report+['--This object' + timeref + 'closer to the Earth than the Moon!--']
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
-                report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in proximity to Earth.']
+                report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
                 from urllib import request as ur
                 if LD<=10 and daysago<=10:
@@ -186,16 +193,12 @@ class PageResult:
 
 @app.route('/reportout/<pagenum>', methods=['GET'])
 def reportout(pagenum):
-    
-    time.sleep(5)
+    from time import sleep
+    sleep(2)
 
     return render_template('form2.html', report=PageResult(report, int(pagenum.replace('.0','')), pn),
     calday=calday,complete_date=complete_date,LD=LD,
     daysago=daysago,count=count,lastpage=int(str(lastpage).replace('.0','')))
 
-
-
-
 if __name__ == '__main__':
     app.run()
-
