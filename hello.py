@@ -187,7 +187,7 @@ class PageResult:
 @app.route('/reportout/<pagenum>', methods=['GET'])
 def reportout(pagenum):
     from time import sleep
-    sleep(5)
+    sleep(10)
 
     return render_template('form2.html', report=PageResult(report, int(pagenum.replace('.0','')), pn),
     calday=calday,complete_date=complete_date,LD=LD,
