@@ -7,7 +7,7 @@ import time
 import calendar
 import numpy as np
 import math
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for #, session
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField
@@ -140,15 +140,16 @@ def daysnlunar():
             else:
                 lastpage=int(count/3+(1-(count%3/3)))
             if count==0:
-                session['report'] = 'None'
-            else:
-                session['report'] = report
-            session['calday'] = calday
-            session['complete_date'] = complete_date
-            session['LD'] = LD
-            session['daysago'] = daysago
-            session['count'] = count
-            session['lastpage'] = lastpage
+                #session['report'] = 'None'
+                report = 'None'
+            #else:
+                #session['report'] = report
+            #session['calday'] = calday
+            #session['complete_date'] = complete_date
+            #session['LD'] = LD
+            #session['daysago'] = daysago
+            #session['count'] = count
+            #session['lastpage'] = lastpage
 
             if 1<LD:
                 pn=21
@@ -187,10 +188,11 @@ class PageResult:
 def reportout(pagenum):
 
 
-    return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
+    return render_template('form2.html', report=PageResult(report, int(pagenum.replace('.0','')), pn),
     calday=calday,complete_date=complete_date,LD=LD,
     daysago=daysago,count=count,lastpage=lastpage)
 
 
 if __name__ == '__main__':
     app.run()
+
