@@ -52,8 +52,8 @@ class ReportForm(FlaskForm):
 def daysnlunar():
     global report, calday, complete_date, LD, daysago, count, lastpage, pagenum, pn
 
-    #LD=''
-    #d1=''
+    report, calday, complete_date, LD, daysago, count, lastpage, pagenum, pn = None, None, None, None, None, None, None, None, None
+    
     day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
     r1, r2 = 50, 0
     LD_selection=createList(r1, r2)
