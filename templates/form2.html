@@ -1,0 +1,140 @@
+
+{% block head %}
+    <h3 align="center" style="position: relative; top: -60px">Your search returned {{count}} near-Earth object{%if count==1 %}{{""}}{%else%}{{"s"}}{%endif%}.<br><br></h3>
+{% endblock %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='theme.css') }}" rel="stylesheet">
+  </head>
+
+
+<head>
+    <h4 for="Report" style="position: relative; top: -60px">****Available National Aeronautics and Space Administration (NASA) Jet Propulsion Laboratory
+             data from the<br>Small-Body Database since
+             {{calday}}, {{complete_date}} and within {{LD}} lunar
+             distance{%if LD==1 %}{{""}}{% elif LD==0 %}{{"s"}}{% else %}{{"s"}}{% endif %} from Earth****</h4> <br>
+</head>
+<div>
+    <form  method="post" id="report" style="position: relative; top: -50px">
+          <ul style="list-style: none;">
+          {% if daysago>1000 %}
+                {{"That was a long time ago. Please be advised that the human race's ability to track near-Earth
+                 objects was not always as precise as it is today. You may need to
+                increase your lunar distance (LD) parameter to see asteroids from a particular year long ago."}}
+          {% endif %}
+          {% if count==0 %}
+                {{"There are no asteroids NASA is currently tracking within this range."}}
+                {{"If you know of any, please let the NASA/California Institute of Technology Jet Propulsion Laboratory know:"}}<br>
+                {{"Jet Propulsion Laboratory"}}<br>
+                {{"4800 Oak Grove Drive"}}<br>
+                {{"Pasadena, CA 91109"}}<br>
+                {{"(The JPL website could also be undergoing maintenance.)"}}
+          {% else %}
+              {%for item in report%}
+                  {% if "google" in item %}
+                      <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for possible details---</a><br>
+                  {% elif "com" in item %}
+                      <a href ="{{item}}">Earth-strike long-range forecast</a><br>
+                  {%elif "org" in item %}
+                      <a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a>
+                      <br>
+                  {% elif item=="break" %}
+                        <br>
+                        <br>
+                  {% else %}
+                      <li>{{item}}</li>
+                  {% endif %}
+              {%endfor%}
+          {% endif %}
+          </ul>
+          <ul class="pagination">
+          {%if report.page == 1%}
+              <li class="page-item disabled"><a class="page-link" href=>First</a></li>
+              <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+          {%else%}
+              <li class="page-item"><a class="page-link" href="{{report.page-report.page+1}}">First</a></li>
+              <li class="page-item"><a class="page-link" href="/report/{{report.page-1}}">Previous</a></li>
+          {%endif%}
+          {%if LD==1%}<!--LD==1 results in only 2 objects per page; hence, dividing count by 2 gives number of pages-->
+              {% if count%2 == 0 %}<!--all pages gives precisely 2 objects-->
+                    {%if report.page == count/2 or count==0 %}<!--on the last page or no objects-->
+                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
+                    {%else%}
+                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page+count/2-report.page}}">Last</a></li>
+                    {%endif%}
+              {%else%}
+                    <!--mathematical formula for ceiling-->
+                    {%if report.page == count/2+(1-(count%2/2)) %}<!--on the last page-->
+                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>>
+                    {%else%}
+                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page+lastpage-report.page}}">Last</a></li>
+                    {%endif%}
+              {%endif%}
+          {%else%}
+              {% if count%3 == 0%}
+                    {%if report.page == count/3 or count==0 %}<!--on the last page or no objects-->
+                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
+                    {%else%}
+                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page+count/3-report.page}}">Last</a></li>
+                    {%endif%}
+              {%else%}
+                    <!--mathematical formula for ceiling-->
+                    {%if report.page == count/3+(1-(count%3/3)) %}<!--on the last page -->
+                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
+                    {%else%}
+                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page+lastpage-report.page}}">Last</a></li>
+                    {%endif%}
+              {%endif%}
+          {%endif%}
+
+          </ul>
+
+<a href="/"style="position: relative; top: -33px">Home</a>
+
+      <!--{% if daysago>1000 %}
+          {{"That was a long time ago. Please be advised that the human race's ability to track near-Earth
+           objects was not always as precise as it is today. You may need to
+          increase your lunar distance (LD) parameter to see asteroids from a particular year long ago."}}
+      {% endif %}
+      {% if report=="None" %}
+          {{"There are no asteroids NASA is currently tracking within this range."}}
+          {{"If you know of any, please let NASA know."}}
+          {{"(The JPL website could also be undergoing maintenance.)"}}
+      {% else %}
+          {% for line in report %}
+              {% if "https" in line %}
+              <a href ="{{line}}">Earth-strike long-range forecast</a>
+              {% elif line=="break" %}
+                <br>
+                <br>
+              {% else %}
+                  {{line}}
+                <br>
+              {% endif %}
+          {% endfor %}
+      {% endif %}-->
+
+
+    </form>
+</div>
