@@ -178,7 +178,7 @@ class PageResult:
 
 @app.route('/report/<pagenum>', methods=['GET'])
 def report(pagenum):
-    if session.get("LD")>1:
+    if 1<session.get("LD"):
         pn=21
     else:
         pn=16
