@@ -46,7 +46,7 @@
               {%for item in report%}
                   {% if "rank" in item %}
                       <a href ="{{item}}" style="color:#FF0000;"
-                  {% if "google" in item %}
+                  {% elif "google" in item %}
                       <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for possible details---</a><br>
                   {% elif "com" in item %}
                       <a href ="{{item}}">Earth-strike long-range forecast</a><br>
