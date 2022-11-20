@@ -44,9 +44,7 @@
                 {{"(The JPL website could also be undergoing maintenance.)"}}
           {% else %}
               {%for item in report%}
-                  {% if "ranked" in item %}
-                      <li style="color:#FF0000;" {{item}} </li>
-                  {% elif "google" in item %}
+                  {% if "google" in item %}
                       <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for possible details---</a><br>
                   {% elif "com" in item %}
                       <a href ="{{item}}">Earth-strike long-range forecast</a><br>
