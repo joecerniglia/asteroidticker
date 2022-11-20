@@ -50,7 +50,7 @@ class ReportForm(FlaskForm):
 # This decorator tells Flask to use this function as a webpage handler/renderer
 @app.route('/', methods=['GET', 'POST'])
 def daysnlunar():
-    global report, calday, complete_date, LD, daysago, count, lastpage
+    global report, calday, complete_date, LD, daysago, count, lastpage, pagenum, pn
 
     #LD=''
     #d1=''
@@ -149,12 +149,18 @@ def daysnlunar():
             session['daysago'] = daysago
             session['count'] = count
             session['lastpage'] = lastpage
+
+            if 1<LD:
+                pn=21
+            else:
+                pn=16
+
             if daysago==None:
                 return 'The NASA server is busy right now. Try again later, or try reducing the size of your parameters.'
             else:
                 try:
                     #return report
-                    return redirect(url_for('reportout', pagenum=1, LD=LD))
+                    return redirect(url_for('reportout', pagenum=1))
                 except Exception as e:
                     return str(e)
                     #return 'The NASA server is busy right now. Try again later, or try reducing the size of your parameters.'
@@ -179,10 +185,7 @@ class PageResult:
 
 @app.route('/reportout/<pagenum>', methods=['GET'])
 def reportout(pagenum):
-    if 1<int(LD):
-        pn=21
-    else:
-        pn=16
+
 
     return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
     calday=calday,complete_date=complete_date,LD=LD,
