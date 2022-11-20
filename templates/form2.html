@@ -45,7 +45,7 @@
           {% else %}
               {%for item in report%}
                   {% if "rank" in item %}
-                      <a href ="{{item}}" style="color:#FF0000;"</a
+                      <li {{item}} style="color:#FF0000;"</li
                   {% elif "google" in item %}
                       <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for possible details---</a><br>
                   {% elif "com" in item %}
