@@ -143,9 +143,9 @@ def daysnlunar():
 
                 report=report+['break']
             if LD==1:
-                lastpage=int(count/2+(1-(count%2/2)))
+                lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
             else:
-                lastpage=int(count/3+(1-(count%3/3)))
+                lastpage=int(str(count/3+(1-(count%3/3))).replace('.0',''))
             if count==0:
                 #session['report'] = 'None'
                 report = 'None'
@@ -196,7 +196,7 @@ def reportout(pagenum):
     from time import sleep
     sleep(2)
 
-    return render_template('form2.html', report=PageResult(report, int(str(pagenum).replace('.0','')), pn),
+    return render_template('form2.html', report=PageResult(report, int(pagenum)), pn),
     calday=calday,complete_date=complete_date,LD=LD,
     daysago=daysago,count=count,lastpage=int(str(lastpage).replace('.0','')))
 
