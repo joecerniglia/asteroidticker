@@ -50,12 +50,12 @@ class ReportForm(FlaskForm):
 # This decorator tells Flask to use this function as a webpage handler/renderer
 @app.route('/', methods=['GET', 'POST'])
 def daysnlunar():
-    global report, calday, complete_date, LD, daysago, count, lastpage, pagenum, pn
+    global report, calday, complete_date, LD, daysago, count, lastpage, pn, pagenum
 
     #LD=''
     #d1=''
     day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
-    r1, r2 = 15, 0
+    r1, r2 = 50, 0
     LD_selection=createList(r1, r2)
     format = '%Y-%m-%d'
     if request.method == 'POST':
@@ -143,9 +143,16 @@ def daysnlunar():
 
                 report=report+['break']
             if LD==1:
-                lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
+                #ceiling: will need compensation in the form. For example for 27 objects on 3-per-page, this gives 10
+                if count%2==0:
+                    lastpage=int(str(count/2).replace('.0',''))
+                else:
+                    lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
             else:
-                lastpage=int(str(count/3+(1-(count%3/3))).replace('.0',''))
+                if count%3==0:
+                    lastpage=int(str(count/3).replace('.0',''))
+                else:
+                    lastpage=int(str(count/3+(1-(count%3/3))).replace('.0',''))
             if count==0:
                 #session['report'] = 'None'
                 report = 'None'
@@ -167,9 +174,11 @@ def daysnlunar():
                 return 'The NASA server is busy right now. Try again later, or try reducing the size of your parameters.'
             else:
                 try:
+                    #return pagenum
                     #return report
                     return redirect(url_for('reportout', pagenum=1))
                 except Exception as e:
+                    #return pagenum
                     return str(e)
                     #return 'The NASA server is busy right now. Try again later, or try reducing the size of your parameters.'
 
@@ -193,16 +202,16 @@ class PageResult:
 
 @app.route('/reportout/<pagenum>', methods=['GET'])
 def reportout(pagenum):
-   
-    time.sleep(count*.1)
 
-    return render_template('form2.html', report=PageResult(report, int(str(pagenum).replace('.0','')), pn),
+    time.sleep(2)
+
+    return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
     calday=calday,complete_date=complete_date,LD=LD,
     daysago=daysago,count=count,lastpage=int(str(lastpage).replace('.0','')))
 
-@app.errorhandler(500)
-def server_overloaded(error):
-    return render_template('500.html'), 500
+#@app.errorhandler(500)
+#def server_overloaded(error):
+    #return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run()
