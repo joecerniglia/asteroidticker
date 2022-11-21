@@ -200,5 +200,9 @@ def reportout(pagenum):
     calday=calday,complete_date=complete_date,LD=LD,
     daysago=daysago,count=count,lastpage=int(str(lastpage).replace('.0','')))
 
+@app.errorhandler(500)
+def server_overloaded(error):
+    return render_template('500.html'), 500
+
 if __name__ == '__main__':
     app.run()
