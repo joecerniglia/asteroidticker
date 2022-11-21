@@ -84,7 +84,7 @@
                         <li class="page-item disabled"><a class="page-link" href=>Last</a></li>>
                     {%else%}
                         <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage-1}}">Last</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
                     {%endif%}
               {%endif%}
           {%else%}
@@ -103,7 +103,7 @@
                         <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
                     {%else%}
                         <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage-1}}">Last</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
                     {%endif%}
               {%endif%}
           {%endif%}
