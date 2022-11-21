@@ -1,3 +1,4 @@
+
 {% block head %}
     <h3 align="center" style="position: relative; top: -60px">Your search returned {{count}} near-Earth object{%if count==1 %}{{""}}{%else%}{{"s"}}{%endif%}.<br><br></h3>
 {% endblock %}
@@ -74,7 +75,7 @@
                         <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
                     {%else%}
                         <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage-1}}">Last</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
                     {%endif%}
               {%else%}
                     <!--mathematical formula for ceiling-->
@@ -93,7 +94,7 @@
                         <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
                     {%else%}
                         <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage-1}}">Last</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
                     {%endif%}
               {%else%}
                     <!--mathematical formula for ceiling-->
@@ -137,4 +138,3 @@
 
     </form>
 </div>
-
