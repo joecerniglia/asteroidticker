@@ -52,10 +52,10 @@ class ReportForm(FlaskForm):
 def daysnlunar():
     global report, calday, complete_date, LD, daysago, count, lastpage, pn, pagenum
     
-    LD=0
-    LD_str=''
-    daysago=9
-    d1=''
+    #LD=0
+    #LD_str=''
+    #daysago=9
+    #d1=''
 
     day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
     r1, r2 = 50, 0
@@ -206,7 +206,7 @@ class PageResult:
 @app.route('/reportout/<pagenum>', methods=['GET'])
 def reportout(pagenum):
 
-    time.sleep(2)
+    time.sleep(count*.17)
 
     return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
     calday=calday,complete_date=complete_date,LD=LD,
