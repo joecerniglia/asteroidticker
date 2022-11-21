@@ -51,9 +51,12 @@ class ReportForm(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def daysnlunar():
     global report, calday, complete_date, LD, daysago, count, lastpage, pn, pagenum
+    
+    LD=0
+    LD_str=''
+    daysago=9
+    d1=''
 
-    #LD=''
-    #d1=''
     day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
     r1, r2 = 50, 0
     LD_selection=createList(r1, r2)
