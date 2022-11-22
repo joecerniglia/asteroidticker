@@ -35,7 +35,7 @@ class State(db.Model):
     report=db.Column(db.Text)
     calday = db.Column(db.String(64))
     complete_date = db.Column(db.String(64))
-    LD = db.Column(db.Integer)
+    ld = db.Column(db.Integer)
     daysago = db.Column(db.Integer)
     count = db.Column(db.Integer)
     lastpage=db.Column(db.Integer)
