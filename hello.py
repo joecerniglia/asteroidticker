@@ -40,6 +40,10 @@ class State(db.Model):
     count = db.Column(db.Integer)
     lastpage=db.Column(db.Integer)
     pn=db.Column(db.Integer)
+    
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Role=Role)
 
 def get_random_string(length):
     # choose from all lowercase letter
