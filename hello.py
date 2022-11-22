@@ -18,7 +18,7 @@ import random
 import string
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
@@ -33,13 +33,14 @@ def create_app(config_file='settings.py'):
     app.config['SQLALCHEMY_DATABASE_URI'] =\
         'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
+    db = SQLAlchemy(app)
     db.init_app(app)
     bootstrap = Bootstrap(app)
 
     app.cli.add_command(create_tables)
 
     return app
+
 app = create_app()
 
 
