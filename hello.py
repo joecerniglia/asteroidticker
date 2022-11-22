@@ -178,7 +178,7 @@ def daysnlunar():
             else:
                 try:
                     #return pagenum
-                    return report
+                    return str(len(report))
                     #return redirect(url_for('reportout', pagenum=1))
                 except Exception as e:
                     #return pagenum
