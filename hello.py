@@ -29,13 +29,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-app.cli.add_command(create_tables)
-
-@click.command(name='create_tables')
-@with_appcontext
-def create_tables():
-    db.create_all()
-    
 class State(db.Model):
     __tablename__='states'
     id=db.Column(db.Integer, primary_key=True)
