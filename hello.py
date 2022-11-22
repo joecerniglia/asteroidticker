@@ -17,7 +17,17 @@ from wtforms import TextAreaField
 import random
 import string
 from flask_sqlalchemy import SQLAlchemy
+#import settings
+basedir = os.path.abspath(os.path.dirname(__file__))
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+    'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+db = SQLAlchemy(app)
 
 @click.command(name='create_tables')
 @with_appcontext
@@ -26,14 +36,14 @@ def create_tables():
 
 def create_app(config_file='settings.py'):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    app = Flask(__name__)
+
     app.config.from_pyfile(config_file)
 
     app.config['SECRET_KEY'] = 'hard to guess string'
     app.config['SQLALCHEMY_DATABASE_URI'] =\
         'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
+
     db.init_app(app)
     bootstrap = Bootstrap(app)
 
@@ -41,7 +51,7 @@ def create_app(config_file='settings.py'):
 
     return app
 
-app = create_app()
+#app = create_app()
 
 
 def get_random_string(length):
