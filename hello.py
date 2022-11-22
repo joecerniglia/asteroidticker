@@ -1,3 +1,4 @@
+import os
 import requests
 import json
 import webbrowser
@@ -13,6 +14,8 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField
 import random
 import string
+from flask_sqlalchemy import SQLAlchemy
+
 
 def get_random_string(length):
     # choose from all lowercase letter
@@ -26,6 +29,26 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = get_random_string(20) # this can be anything
 bootstrap = Bootstrap(app)
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+class State(db.Model):
+    __tablename__='states'
+    id=db.Column(db.Integer, primary_key=True)
+    report=db.Column(db.Text)
+    calday = db.Column(db.String(64))
+    complete_date = db.Column(db.String(64))
+    LD = db.Column(db.Integer)
+    daysago = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+    lastpage=db.Column(db.Integer)
+    pn=db.Column(db.Integer)
 
 def createList(r1, r2):
  # Testing if range r1 and r2
@@ -50,8 +73,11 @@ class ReportForm(FlaskForm):
 # This decorator tells Flask to use this function as a webpage handler/renderer
 @app.route('/', methods=['GET', 'POST'])
 def daysnlunar():
-    global report, calday, complete_date, LD, daysago, count, lastpage, pn, pagenum
-    
+    #global report, calday, complete_date, LD, daysago, count, lastpage, pn, pagenum
+    global report, pn, pagenum, lastpage
+    #for all records
+    db.session.query(State).delete()
+    db.session.commit()
     #LD=0
     #LD_str=''
     #daysago=9
@@ -159,27 +185,25 @@ def daysnlunar():
             if count==0:
                 #session['report'] = 'None'
                 report = 'None'
-            #else:
-                #session['report'] = report
-            #session['calday'] = calday
-            #session['complete_date'] = complete_date
-            #session['LD'] = LD
-            #session['daysago'] = daysago
-            #session['count'] = count
-            #session['lastpage'] = lastpage
 
             if 1<LD:
                 pn=21
             else:
                 pn=16
 
+            state=State(report=str(report), calday=calday, complete_date=complete_date,
+            LD=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
+            db.session.add(state)
+            db.session.commit()
+
+
             if daysago==None:
                 return 'The NASA server is busy right now. Try again later, or try reducing the size of your parameters.'
             else:
                 try:
                     #return pagenum
-                    return str(len(report))
-                    #return redirect(url_for('reportout', pagenum=1))
+                    #return str(len(report))
+                    return redirect(url_for('reportout', pagenum=1))
                 except Exception as e:
                     #return pagenum
                     return str(e)
@@ -207,7 +231,57 @@ class PageResult:
 def reportout(pagenum):
 
     #time.sleep(6+count*.5)
+    table_name='states'
 
+    column_name='report'
+    query= f'SELECT {column_name} FROM {table_name}'
+    reportd=db.session.execute(query)
+    report=reportd.fetchall()
+    report = eval(report[0][0])
+
+    column_name='pn'
+    query= f'SELECT {column_name} FROM {table_name}'
+    pnd=db.session.execute(query)
+    pn=pnd.fetchall()
+    pn = int(str(pn[0][0]))
+
+    column_name='lastpage'
+    query= f'SELECT {column_name} FROM {table_name}'
+    lastpaged=db.session.execute(query)
+    lastpage=lastpaged.fetchall()
+    lastpage = int(str(lastpage[0][0]))
+
+    column_name='calday'
+    query= f'SELECT {column_name} FROM {table_name}'
+    caldayd=db.session.execute(query)
+    calday=caldayd.fetchall()
+    calday = str(calday[0][0])
+
+    column_name='complete_date'
+    query= f'SELECT {column_name} FROM {table_name}'
+    complete_dated=db.session.execute(query)
+    complete_date=complete_dated.fetchall()
+    complete_date = str(complete_date[0][0])
+
+    column_name='LD'
+    query= f'SELECT {column_name} FROM {table_name}'
+    LDd=db.session.execute(query)
+    LD=LDd.fetchall()
+    LD=int(str(LD[0][0]))
+
+    column_name='daysago'
+    query= f'SELECT {column_name} FROM {table_name}'
+    daysagod=db.session.execute(query)
+    daysago=daysagod.fetchall()
+    daysago=int(str(daysago[0][0]))
+
+    column_name='count'
+    query= f'SELECT {column_name} FROM {table_name}'
+    countd=db.session.execute(query)
+    count=countd.fetchall()
+    count=int(str(count[0][0]))
+
+    #return str(lastpage)
     return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
     calday=calday,complete_date=complete_date,LD=LD,
     daysago=daysago,count=count,lastpage=int(str(lastpage).replace('.0','')))
