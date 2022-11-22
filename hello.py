@@ -21,19 +21,14 @@ from flask_sqlalchemy import SQLAlchemy
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-
-#app.config['SECRET_KEY'] = 'hard to guess string'
-#app.config['SQLALCHEMY_DATABASE_URI'] =\
-  #  'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
-#SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-SECRET_KEY = os.environ.get('SECRET_KEY')
-SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+    'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+bootstrap = Bootstrap(app)
+app.cli.add_command(create_tables)
 
 @click.command(name='create_tables')
 @with_appcontext
