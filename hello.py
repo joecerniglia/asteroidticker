@@ -264,7 +264,7 @@ def reportout(pagenum):
     complete_date=complete_dated.fetchall()
     complete_date = str(complete_date[0][0])
 
-    column_name='LD'
+    column_name='ld'
     query= f'SELECT {column_name} FROM {table_name}'
     LDd=db.session.execute(query)
     LD=LDd.fetchall()
