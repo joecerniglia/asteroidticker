@@ -17,54 +17,25 @@ from wtforms import TextAreaField
 import random
 import string
 from flask_sqlalchemy import SQLAlchemy
-#import settings
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
-#SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-SECRET_KEY = os.environ.get('SECRET_KEY')
-SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+app.config['SECRET_KEY'] = 'aa30f5e10e93466c929ae3d4ac90eb3b'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
-
-db = SQLAlchemy(app)
 bootstrap = Bootstrap(app)
+db = SQLAlchemy(app)
+
 app.cli.add_command(create_tables)
 
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
     db.create_all()
-
-def create_app(config_file='settings.py'):
-    basedir = os.path.abspath(os.path.dirname(__file__))
-
-    app.config.from_pyfile(config_file)
-
-    app.config['SECRET_KEY'] = 'hard to guess string'
-    app.config['SQLALCHEMY_DATABASE_URI'] =\
-        'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    db.init_app(app)
-    bootstrap = Bootstrap(app)
-
-    app.cli.add_command(create_tables)
-
-    return app
-
-#app = create_app()
-
-
-def get_random_string(length):
-    # choose from all lowercase letter
-    letters = string.ascii_lowercase
-    result_str = ''.join(random.choice(letters) for i in range(length))
-    return result_str
-
-
+    
 class State(db.Model):
     __tablename__='states'
     id=db.Column(db.Integer, primary_key=True)
@@ -76,6 +47,12 @@ class State(db.Model):
     count = db.Column(db.Integer)
     lastpage=db.Column(db.Integer)
     pn=db.Column(db.Integer)
+
+def get_random_string(length):
+    # choose from all lowercase letter
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
 
 def createList(r1, r2):
  # Testing if range r1 and r2
@@ -317,7 +294,11 @@ def reportout(pagenum):
 def server_overloaded(error):
     return render_template('500.html'), 500
 
-
+@click.command(name='create_tables')
+@with_appcontext
+def create_tables():
+    db.create_all()
+app.cli.add_command(create_tables)
 
 
 if __name__ == '__main__':
