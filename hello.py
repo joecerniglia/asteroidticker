@@ -1,4 +1,6 @@
 import os
+import click
+from flask.cli import with_appcontext
 import requests
 import json
 import webbrowser
@@ -15,7 +17,30 @@ from wtforms import TextAreaField
 import random
 import string
 from flask_sqlalchemy import SQLAlchemy
-from commands import create_tables
+
+db = SQLAlchemy()
+@click.command(name='create_tables')
+@with_appcontext
+def create_tables():
+    db.create_all()
+
+def create_app(config_file='settings.py'):
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    app = Flask(__name__)
+    app.config.from_pyfile(config_file)
+
+    app.config['SECRET_KEY'] = 'hard to guess string'
+    app.config['SQLALCHEMY_DATABASE_URI'] =\
+        'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    db.init_app(app)
+    bootstrap = Bootstrap(app)
+
+    app.cli.add_command(create_tables)
+
+    return app
+app = create_app()
 
 
 def get_random_string(length):
@@ -24,22 +49,6 @@ def get_random_string(length):
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
 
-
-# Stuff to initialize the Flask app
-app = Flask(__name__)
-app.config.from_object(__name__)
-app.config['SECRET_KEY'] = get_random_string(20) # this can be anything
-bootstrap = Bootstrap(app)
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-#app.config['SQLALCHEMY_DATABASE_URI'] =\
-    #'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-app.cli.add_command(create_tables)
-
-db = SQLAlchemy(app)
 
 class State(db.Model):
     __tablename__='states'
@@ -292,6 +301,9 @@ def reportout(pagenum):
 @app.errorhandler(500)
 def server_overloaded(error):
     return render_template('500.html'), 500
+
+
+
 
 if __name__ == '__main__':
     app.run()
