@@ -193,7 +193,7 @@ def daysnlunar():
                 pn=16
 
             state=State(report=str(report), calday=calday, complete_date=complete_date,
-            LD=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
+            ld=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
             db.session.add(state)
             db.session.commit()
 
