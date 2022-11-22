@@ -145,7 +145,7 @@ def daysnlunar():
                 report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
                 from urllib import request as ur
-                if LD<=10 and daysago<=10:
+                if LD<=50 and daysago<=10:
                     try:
                         if int(miles.replace(',',''))>4000:
                             ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
@@ -160,7 +160,7 @@ def daysnlunar():
                         report=report+["no skylive weblink available"]
                 else:
                     report=report+["For skylive weblink, choose parameters <= 10."]
-                if LD<=10 and daysago<=10:
+                if LD<=50 and daysago<=10:
                     try:
                         ur.urlopen("https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower())
                         report=report+["https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower()]
