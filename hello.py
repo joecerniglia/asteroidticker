@@ -130,7 +130,7 @@ def daysnlunar():
                     dhigh = str("{0:,.0f}".format((1329/math.sqrt(.05))*(10**(-0.2*float(object[10])))*3280.84))
                 except:
                     dhigh=''
-                if n==0:
+                if 1 <= n <= 10:
                     try:
                         ur.urlopen("https://en.wikipedia.org/wiki/" + object[0].replace(" ","_"))
                         wiki="https://en.wikipedia.org/wiki/" + object[0].replace(" ","_")
