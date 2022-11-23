@@ -17,6 +17,7 @@ from wtforms import TextAreaField
 import random
 import string
 from flask_sqlalchemy import SQLAlchemy
+from urllib import request as ur
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -156,7 +157,7 @@ def daysnlunar():
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
                 report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
-                from urllib import request as ur
+                
                 if LD<=50 and daysago<=10:
                     try:
                         if int(miles.replace(',',''))>4000:
