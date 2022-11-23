@@ -95,7 +95,7 @@ def daysnlunar():
             daysago = int(request.form.get('daysago'))
             LD_str = str(request.form.get('LD'))
             LD = int(request.form.get('LD'))
-            if daysago>50:
+            if daysago>50 and LD>1:
                 flash("You selected " + str(daysago) + " days for your time window. To keep results manageable, time windows greater than 50 will be processed with 1 lunar distance.")
                 LD_str="1"
                 LD=1
