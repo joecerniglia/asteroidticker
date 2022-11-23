@@ -67,7 +67,11 @@
                         <br>
                         <br>
                   {% else %}
-                      <li>{{item}}</li>
+                      {% if count==1 %}
+                           <a href ="{{item}}">
+                      {% else %}
+                           <li>{{item}}</li>
+                      {% endif %}
                   {% endif %}
               {%endfor%}
           {% endif %}
