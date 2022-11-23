@@ -84,7 +84,7 @@
               <li class="page-item"><a class="page-link" href="{{report.page-report.page+1}}">First</a></li>
               <li class="page-item"><a class="page-link" href="{{report.page-1}}">Previous</a></li>
           {%endif%}
-          {%if LD==1%}<!--LD==1 results in only 2 objects per page; hence, dividing count by 2 gives number of pages-->
+      <!--{%if LD==1%}<!--LD==1 results in only 2 objects per page; hence, dividing count by 2 gives number of pages-->
               {% if count%2 == 0 %}<!--all pages gives precisely 2 objects-->
                     {%if report.page == count/2 or count==0 %}<!--on the last page or no objects-->
                         <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
@@ -103,26 +103,26 @@
                         <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
                     {%endif%}
               {%endif%}
+          {%else%}-->
+          {% if count%3 == 0%}
+                {%if report.page == count/3 or count==0 %}<!--on the last page or no objects-->
+                    <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                    <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
+                {%else%}
+                    <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
+                {%endif%}
           {%else%}
-              {% if count%3 == 0%}
-                    {%if report.page == count/3 or count==0 %}<!--on the last page or no objects-->
-                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
-                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
-                    {%else%}
-                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
-                    {%endif%}
-              {%else%}
-                    <!--mathematical formula for ceiling-->
-                    {%if report.page == count/3+(1-(count%3/3)) %}<!--on the last page -->
-                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
-                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
-                    {%else%}
-                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
-                    {%endif%}
-              {%endif%}
+                <!--mathematical formula for ceiling-->
+                {%if report.page == count/3+(1-(count%3/3)) %}<!--on the last page -->
+                    <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                    <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
+                {%else%}
+                    <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
+                {%endif%}
           {%endif%}
+      <!--{%endif%}-->
 
           </ul>
 
