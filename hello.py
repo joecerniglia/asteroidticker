@@ -184,8 +184,8 @@ def daysnlunar():
                 else:
                     lastpage=int(str(count/3+(1-(count%3/3))).replace('.0',''))
             if count==0:
-                #session['report'] = 'None'
-                report = 'None'
+                
+                report = ['None']
 
             if 1<LD:
                 pn=21
