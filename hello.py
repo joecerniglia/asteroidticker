@@ -156,6 +156,8 @@ def daysnlunar():
                 report=report+[timeref[1:] + miles + ' miles from Earth on ' + object[3][:11]]
                 if int(miles.replace(",", ""))<238854:
                     report=report+['--This object' + timeref + 'closer to the Earth than the Moon!--']
+                else:
+                    report=report+['--This object' + timeref + 'beyond the orbit of the Moon.--']
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
                 report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
