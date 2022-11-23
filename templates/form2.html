@@ -68,7 +68,8 @@
                         <br>
                   {% else %}
                       {% if "wiki" in item %}
-              <a href ="{{item}}">""</a>
+                           <li>{{item}}</li>
+                           <a href ="{{item}}">"Wikipedia article"</a>
                       {% else %}
                            <li>{{item}}</li>
                       {% endif %}
