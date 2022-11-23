@@ -105,8 +105,8 @@ def daysnlunar():
                 s1='dist'
                 s1_desc='proximity to Earth'
             #Process the date
-            d1 = str((datetime.today() - timedelta(days=daysago+1)).strftime('%Y-%m-%d'))
-            d2 = str((datetime.today() + timedelta(days=daysago-1)).strftime('%Y-%m-%d'))
+            d1 = str((datetime.today() - timedelta(days=daysago)).strftime('%Y-%m-%d'))
+            d2 = str((datetime.today() + timedelta(days=daysago)).strftime('%Y-%m-%d'))
             datef=datetime.strptime(d1,format)
             complete_date=datef.strftime("%b %d, %Y")
             calday=calendar.day_name[datef.weekday()]
