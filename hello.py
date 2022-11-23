@@ -10,7 +10,7 @@ import time
 import calendar
 import numpy as np
 import math
-from flask import Flask, request, render_template, redirect, url_for #, session
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField
@@ -95,6 +95,10 @@ def daysnlunar():
             daysago = int(request.form.get('daysago'))
             LD_str = str(request.form.get('LD'))
             LD = int(request.form.get('LD'))
+            if daysago>50:
+                flash("Time frames greater than 50 will be processed with 1 lunar distance.")
+                LD_str="1"
+                LD=1
             sort=request.form.get("sort")
             if sort=='size':
                 s1='h'
