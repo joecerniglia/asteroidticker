@@ -161,7 +161,7 @@ def daysnlunar():
                         #print(e.args)
                         report=report+["no skylive weblink available"]
                 else:
-                    report=report+["For skylive weblink, choose parameters <= 10."]
+                    report=report+["For skylive weblink, select a time window <=10 and a lunar distance <= 50."]
                 if LD<=50 and daysago<=10:
                     try:
                         ur.urlopen("https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower())
@@ -171,7 +171,7 @@ def daysnlunar():
                     except ur.URLError as e:
                         report=report+["no spacereference weblink available"]
                 else:
-                    report=report+["For spacereference weblink, choose parameters <= 10."]
+                    report=report+["For spacereference weblink, select a time window <=10 and a lunar distance <= 10."]
 
                 report=report+['break']
             if LD==1:
