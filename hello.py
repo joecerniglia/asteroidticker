@@ -96,7 +96,7 @@ def daysnlunar():
             LD_str = str(request.form.get('LD'))
             LD = int(request.form.get('LD'))
             if daysago>50:
-                flash("Time frames greater than " + daysago + " will be processed with 1 lunar distance.")
+                flash("You selected " + str(daysago) + " days for your time window. To keep results manageable, time windows greater than 50 will be processed with 1 lunar distance.")
                 LD_str="1"
                 LD=1
             sort=request.form.get("sort")
