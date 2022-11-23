@@ -45,7 +45,7 @@
         <form action="{{ url_for("daysnlunar")}}" method="POST" id="daysago" >
             <label for="daysago">Enter the number of days since today and after today for which you
             would like to see the top asteroids <br>
-            in terms of distance from Earth. For today's date, enter 0:
+            For today's date, enter 0:
             </label>
             <select onchange="changeMe(this)" name=daysago id=daysago  method="POST"  action="/" enabled>
             <option value="{{day_selection[0]}}" selected>{{day_selection[0]}}</option>
