@@ -74,8 +74,8 @@ class ReportForm(FlaskForm):
 # This decorator tells Flask to use this function as a webpage handler/renderer
 @app.route('/', methods=['GET', 'POST'])
 def daysnlunar():
-    #global report, calday, complete_date, LD, daysago, count, lastpage, pn, pagenum
-    global report, pn, pagenum, lastpage
+    
+    global pagenum
     #for all records
     db.session.query(State).delete()
     db.session.commit()
