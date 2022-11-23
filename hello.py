@@ -81,7 +81,7 @@ def daysnlunar():
     db.session.commit()
 
     #day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
-    r1, f2 = 3650, 0
+    r1, r2 = 3650, 0
     day_selection=createList(r1, r2)
     r1, r2 = 50, 0
     LD_selection=createList(r1, r2)
