@@ -94,7 +94,7 @@ def daysnlunar():
         submit = request.form.get('submit')
         clear = request.form.get('clear')
         if submit == 'Submit':
-            daysago = int(request.form.get('daysago'))
+            daysago = int(request.form.get('daysago'))+1
             LD_str = str(request.form.get('LD'))
             LD = int(request.form.get('LD'))
             sort=request.form.get("sort")
@@ -105,7 +105,7 @@ def daysnlunar():
                 s1='dist'
                 s1_desc='proximity to Earth'
             #Process the date
-            d1 = str((datetime.today() - timedelta(days=daysago)).strftime('%Y-%m-%d'))-1
+            d1 = str((datetime.today() - timedelta(days=daysago)).strftime('%Y-%m-%d'))
             d2 = str((datetime.today() + timedelta(days=daysago)).strftime('%Y-%m-%d'))
             datef=datetime.strptime(d1,format)
             complete_date=datef.strftime("%b %d, %Y")
