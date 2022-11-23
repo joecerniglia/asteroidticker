@@ -130,7 +130,13 @@ def daysnlunar():
                 except:
                     dhigh=''
                 if count>=100 and n==0:
-                    wiki="https://en.wikipedia.org/wiki/" + object[0].replace(" ","_")
+                    try:
+                        ur.urlopen("https://en.wikipedia.org/wiki/" + object[0].replace(" ","_"))
+                        wiki="https://en.wikipedia.org/wiki/" + object[0].replace(" ","_")
+                    except ur.HTTPError as e:
+                         wiki=""
+                    except ur.URLError as e:
+                         wiki=""
                 else:
                     wiki=""
                 report=report + ['The object named (' + object[0] +') ' + wiki]
