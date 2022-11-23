@@ -43,7 +43,7 @@ class State(db.Model):
     
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, User=User, Role=Role)
+    return dict(db=db, State=State)
 
 def get_random_string(length):
     # choose from all lowercase letter
