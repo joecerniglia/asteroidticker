@@ -27,13 +27,25 @@
              {{calday}}, {{complete_date}} and within {{LD}} lunar
              distance{%if LD==1 %}{{""}}{% elif LD==0 %}{{"s"}}{% else %}{{"s"}}{% endif %} from Earth****</h4> <br>
 </head>
+    
 <div>
+    <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+    
     <form  method="post" id="report" style="position: relative; top: -50px">
           <ul style="list-style: none;">
           {% if daysago>1000 %}
-                {{"That was a long time ago. Please be advised that the human race's ability to track near-Earth
+                <!--{{"That was a long time ago. Please be advised that the human race's ability to track near-Earth
                  objects was not always as precise as it is today. You may need to
-                increase your lunar distance (LD) parameter to see asteroids from a particular year long ago."}}
+                increase your lunar distance (LD) parameter to see asteroids from a particular year long ago."}}-->
           {% endif %}
           {% if count==0 %}
                 {{"There are no asteroids NASA is currently tracking within this range."}}
