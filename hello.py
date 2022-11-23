@@ -105,7 +105,7 @@ def daysnlunar():
                 s1='dist'
                 s1_desc='proximity to Earth'
             #Process the date
-            d1 = str((datetime.today() - timedelta(days=daysago)).strftime('%Y-%m-%d'))
+            d1 = str((datetime.today() - timedelta(days=daysago)).strftime('%Y-%m-%d'))-1
             d2 = str((datetime.today() + timedelta(days=daysago)).strftime('%Y-%m-%d'))
             datef=datetime.strptime(d1,format)
             complete_date=datef.strftime("%b %d, %Y")
