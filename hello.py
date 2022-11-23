@@ -153,13 +153,9 @@ def daysnlunar():
                     timeref=' was '
                 elif datetime.strptime(object[3][:11],format2) > datetime.today():
                     timeref=' will be '
+                report=report+[timeref[1:] + miles + ' miles from Earth on ' + object[3][:11]]
                 if int(miles.replace(",", ""))<238854:
-                    mooncompare='--This object' + timeref + 'closer to the Earth than the Moon!--'
-                else:
-                    mooncompare=""
-                report=report+[timeref[1:] + miles + ' miles from Earth on ' + object[3][:11] + mooncompare]
-                #if int(miles.replace(",", ""))<238854:
-                    #report=report+['--This object' + timeref + 'closer to the Earth than the Moon!--']
+                    report=report+['--This object' + timeref + 'closer to the Earth than the Moon!--']
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
                 report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
