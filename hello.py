@@ -137,12 +137,12 @@ def daysnlunar():
                     except ur.HTTPError as e:
                          wiki=""
                     except ur.URLError as e:
-                         wiki=""
+                         wiki="No Wiki article available."
                 else:
                     wiki=""
                 report=report + ['The object named (' + object[0] +') ']
-                if wiki:
-                    report=report+[wiki]
+                #if wiki:
+                report=report+[wiki]
                 miles=str("{0:,.0f}".format(np.round(float(object[4])*92955807.267433,decimals=2)))
                 format2 = '%Y-%b-%d'
                 if datetime.strptime(object[3][:11],format2) < datetime.today(
@@ -207,7 +207,7 @@ def daysnlunar():
                 report = ['None']
 
             if daysago>365:
-                pn=10
+                pn=9
             else:
                 pn=16
 
