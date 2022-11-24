@@ -189,25 +189,24 @@ def daysnlunar():
                     report=report+["For spacereference weblink, select a time window <=10 and a lunar distance <= 50."]
 
                 report=report+['break']
-            if LD==1:
+            #if LD==1:
                 #ceiling: will need compensation in the form. For example for 27 objects on 3-per-page, this gives 10
-                if count%2==0:
-                    lastpage=int(str(count/2).replace('.0',''))
-                else:
-                    lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
+            if count%2==0:
+                lastpage=int(str(count/2).replace('.0',''))
             else:
-                if count%3==0:
-                    lastpage=int(str(count/3).replace('.0',''))
-                else:
-                    lastpage=int(str(count/3+(1-(count%3/3))).replace('.0',''))
+                lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
+            #else:
+                #if count%3==0:
+                    #lastpage=int(str(count/3).replace('.0',''))
+                #else:
+                    #lastpage=int(str(count/3+(1-(count%3/3))).replace('.0',''))
             if count==0:
-                
                 report = ['None']
 
-            if 1<LD:
-                pn=21
-            else:
-                pn=16
+            #if 1<LD:
+                #pn=21
+            #else:
+            pn=16
 
             state=State(report=str(report), calday=calday, complete_date=complete_date,
             ld=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
