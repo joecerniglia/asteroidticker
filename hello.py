@@ -207,7 +207,7 @@ def daysnlunar():
                 report = ['None']
 
             if daysago>365:
-                pn=9
+                pn=10
             else:
                 pn=16
 
