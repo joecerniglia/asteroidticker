@@ -137,9 +137,10 @@ def daysnlunar():
                     except ur.HTTPError as e:
                          wiki=""
                     except ur.URLError as e:
-                         wiki="No Wiki article available."
+                         wiki=""
                 else:
                     wiki=""
+                #HTML will not print out empty strings
                 report=report + ['The object named (' + object[0] +') ']
                 #if wiki:
                 report=report+[wiki]
