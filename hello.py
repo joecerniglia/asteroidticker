@@ -192,13 +192,11 @@ def daysnlunar():
                 report=report+['break']
             #if LD==1:
                 #ceiling: will need compensation in the form. For example for 27 objects on 3-per-page, this gives 10
-            if daysago>365:
-                lastpage=int(str(count).replace('.0',''))
+            
+            if count%2==0:
+                 lastpage=int(str(count/2).replace('.0',''))
             else:
-                if count%2==0:
-                    lastpage=int(str(count/2).replace('.0',''))
-                else:
-                    lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
+                 lastpage=int(str(count/2+(1-(count%2/2))).replace('.0',''))
             #else:
                 #if count%3==0:
                     #lastpage=int(str(count/3).replace('.0',''))
