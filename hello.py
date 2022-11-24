@@ -153,7 +153,7 @@ def daysnlunar():
                     timeref=' was '
                 elif datetime.strptime(object[3][:11],format2) > datetime.today():
                     timeref=' will be '
-                report=report+[timeref[1:] + miles + ' miles from Earth on ' + object[3][:11]]
+                report=report+[timeref[1:] + miles + ' miles from Earth on ' + object[3][:11]] + ' (the moon is 238,854 miles away)'
                 if int(miles.replace(",", ""))<238854:
                     report=report+['--This object' + timeref + 'closer to the Earth than the Moon!--']
                 else:
