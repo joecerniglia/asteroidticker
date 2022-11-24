@@ -85,8 +85,8 @@
               <li class="page-item"><a class="page-link" href="{{report.page-1}}">Previous</a></li>
           {%endif%}
           
-          {% if count%2 == 0 %}<!--all pages gives precisely 2 objects-->
-                {%if report.page == count/2 or count==0 %}<!--on the last page or no objects-->
+          {% if daysago > 365 %}
+                {%if report.page == count or count==0 %}<!--on the last page or no objects-->
                     <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
                     <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
                 {%else%}
@@ -94,15 +94,25 @@
                     <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
                 {%endif%}
           {%else%}
-                <!--mathematical formula for ceiling-->
-                {%if report.page == count/2+(1-(count%2/2)) %}<!--on the last page-->
-                    <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
-                    <li class="page-item disabled"><a class="page-link" href=>Last</a></li>>
+                {% if count%2 == 0 %}<!--all pages gives precisely 2 objects-->
+                    {%if report.page == count/2 or count==0 %}<!--on the last page or no objects-->
+                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>
+                    {%else%}
+                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
+                    {%endif%}
                 {%else%}
-                    <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
-                    <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
+                    <!--mathematical formula for ceiling-->
+                    {%if report.page == count/2+(1-(count%2/2)) %}<!--on the last page-->
+                        <li class="page-item disabled"><a class="page-link" href=>Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" href=>Last</a></li>>
+                    {%else%}
+                        <li class="page-item"><a class="page-link" href="{{report}}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{{report.page-report.page+lastpage}}">Last</a></li>
+                    {%endif%}
                 {%endif%}
-          {%endif%}
+           {%endif%}
           
 
           </ul>
