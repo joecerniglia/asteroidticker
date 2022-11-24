@@ -208,7 +208,7 @@ def daysnlunar():
             if daysago>365:
                 pn=18
             else:
-                pn=16
+                pn=18
 
             state=State(report=str(report), calday=calday, complete_date=complete_date,
             ld=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
