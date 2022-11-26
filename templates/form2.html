@@ -39,7 +39,7 @@ function removeFlash() {
     <div class="container" style="position: relative; top: -60px">
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert" onclick=”removeFlash()” >&times;</button>
+        <button type="button" class="close" id=”div_flash” data-dismiss="alert" onclick=”removeFlash()” >&times;</button>
         {{ message }}
     </div>
     {% endfor %}
