@@ -1,3 +1,10 @@
+<script>
+function removeFlash() {
+  const element = document.getElementById(‘div_flash’);
+  element.remove();
+}
+</script>
+
 
 {% block head %}
     <h3 align="center" style="position: relative; top: -60px">Your search returned {{count}} near-Earth object{%if count==1 %}{{""}}{%else%}{{"s"}}{%endif%}.<br><br></h3>
@@ -32,7 +39,7 @@
     <div class="container" style="position: relative; top: -60px">
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert" onclick=session.pop('_flashes', None)>&times;</button>
+        <button type="button" class="close" data-dismiss="alert" onclick=”removeFlash()” >&times;</button>
         {{ message }}
     </div>
     {% endfor %}
