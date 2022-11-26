@@ -66,12 +66,10 @@
                   {% elif item=="break" %}
                         <br>
                         <br>
+                  {% elif "wiki" in item %}
+                        <a href ="{{item}}">Wikipedia article</a>
                   {% else %}
-                      {% if "wiki" in item %}
-                           <a href ="{{item}}">Wikipedia article</a>
-                      {% else %}
-                           <li>{{item}}</li>
-                      {% endif %}
+                        <li>{{item}}</li>
                   {% endif %}
               {%endfor%}
           {% endif %}
