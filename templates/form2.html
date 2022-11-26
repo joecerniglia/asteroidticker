@@ -1,11 +1,3 @@
-<script>
-function removeFlash() {
-  const element = document.getElementById(‘div_flash’);
-  element.remove();
-}
-</script>
-
-
 {% block head %}
     <h3 align="center" style="position: relative; top: -60px">Your search returned {{count}} near-Earth object{%if count==1 %}{{""}}{%else%}{{"s"}}{%endif%}.<br><br></h3>
 {% endblock %}
@@ -35,16 +27,17 @@ function removeFlash() {
              distance{%if LD==1 %}{{""}}{% elif LD==0 %}{{"s"}}{% else %}{{"s"}}{% endif %} from Earth****</h4> <br>
 </head>
     
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for message in messages %}
-      <div class=”alert alert-{{ category }}” id=”div_flash” style="position: relative; top: -60px" >
+<div>
+    <div class="container" style="position: relative; top: -60px">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" >&times;</button>
         {{ message }}
-        <input type=”button” value=&#10006 onclick=”removeFlash()” style=”float: right”>
-      </div>
+    </div>
     {% endfor %}
-  {% endif %}
-{% endwith %}
+
+    {% block page_content %}{% endblock %}
+</div>
     
  </div>
     
