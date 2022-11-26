@@ -35,17 +35,16 @@ function removeFlash() {
              distance{%if LD==1 %}{{""}}{% elif LD==0 %}{{"s"}}{% else %}{{"s"}}{% endif %} from Earth****</h4> <br>
 </head>
     
-<div>
-    <div class="container" style="position: relative; top: -60px">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" id=”div_flash” data-dismiss="alert" onclick=”removeFlash()” >&times;</button>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class=”alert alert-{{ category }}” id=”div_flash” >
         {{ message }}
-    </div>
+        <input type=”button” value=&#10006 onclick=”removeFlash()” style=”float: right”>
+      </div>
     {% endfor %}
-
-    {% block page_content %}{% endblock %}
-</div>
+  {% endif %}
+{% endwith %}
     
  </div>
     
