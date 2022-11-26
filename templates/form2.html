@@ -37,8 +37,8 @@ function removeFlash() {
     
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    {% for category, message in messages %}
-      <div class=”alert alert-{{ category }}” id=”div_flash” >
+    {% for message in messages %}
+      <div class=”alert alert-{{ category }}” id=”div_flash” style="position: relative; top: -60px" >
         {{ message }}
         <input type=”button” value=&#10006 onclick=”removeFlash()” style=”float: right”>
       </div>
