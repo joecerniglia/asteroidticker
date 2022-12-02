@@ -122,8 +122,9 @@ def daysnlunar():
             report=[]
             for n in range(count):
                 object = t['data'][n]
+                return object
                 if '99942' in object:
-                    object=object+" Apophis"
+                    object=object+[" Apophis"]
                 try:
                     dlow = str("{0:,.0f}".format((1329/math.sqrt(.25))*(10**(-0.2*float(object[10])))*3280.84))
                 except:
