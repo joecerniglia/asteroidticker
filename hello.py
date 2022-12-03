@@ -122,9 +122,9 @@ def daysnlunar():
             report=[]
             for n in range(count):
                 object = t['data'][n]
-                return object
-                if '99942' in object:
-                    object=object+[" Apophis"]
+                object_name=object[0]
+                if '99942' in object_name:
+                    object_name='99942 Apophis'
                 try:
                     dlow = str("{0:,.0f}".format((1329/math.sqrt(.25))*(10**(-0.2*float(object[10])))*3280.84))
                 except:
@@ -135,8 +135,8 @@ def daysnlunar():
                     dhigh=''
                 if (0 <= n <= 24) and daysago>10:
                     try:
-                        ur.urlopen("https://en.wikipedia.org/wiki/" + object[0].replace(" ","_"))
-                        wiki="https://en.wikipedia.org/wiki/" + object[0].replace(" ","_")
+                        ur.urlopen("https://en.wikipedia.org/wiki/" + object_name.replace(" ","_"))
+                        wiki="https://en.wikipedia.org/wiki/" + object_name.replace(" ","_")
                     except ur.HTTPError as e:
                          wiki=""
                     except ur.URLError as e:
@@ -144,7 +144,7 @@ def daysnlunar():
                 else:
                     wiki=""
                 #HTML will not print out empty strings
-                report=report + ['The object named (' + object[0] +') ']
+                report=report + ['The object named (' + object_name +') ']
                 #if wiki:
                 report=report+[wiki]
                 miles=str("{0:,.0f}".format(np.round(float(object[4])*92955807.267433,decimals=2)))
