@@ -129,6 +129,8 @@ def daysnlunar():
                     object_name='(153814) 2001 WN5'
                 elif object_name=='367943':
                     object_name='367943 Duende'
+                elif object_name=='2019 OD':
+                    object_name='2019 OK'
                 try:
                     dlow = str("{0:,.0f}".format((1329/math.sqrt(.25))*(10**(-0.2*float(object[10])))*3280.84))
                 except:
