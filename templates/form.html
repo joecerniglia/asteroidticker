@@ -50,7 +50,7 @@
             </label>
             <select onchange="changeMe(this)" name=daysago id=daysago  method="POST"  action="/" enabled>
             <option value="{{day_selection[0]}}" selected>{{day_selection[0]}}</option>
-            {% for day in day_selection[1:] %}
+            {% for day in day_selection[0:] %}
                   <option value= "{{day}}" SELECTED>{{day}}</option>"
             {% endfor %}
             </select>
