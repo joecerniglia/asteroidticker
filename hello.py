@@ -169,7 +169,7 @@ def daysnlunar():
                 else:
                     report=report+['--This object' + timeref + 'beyond the orbit of the Moon.--']
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
-                report=report+['This near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
+                report=report+['Within search parameters, this near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
                 
                 if LD<=50 and daysago<=10:
