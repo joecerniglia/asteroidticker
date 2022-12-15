@@ -24,7 +24,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'aa30f5e10e93466c929ae3d4ac90eb3b'
-app.config['HEROKU_POSTGRESQL_CRIMSON_URL'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('HEROKU_POSTGRESQL_CRIMSON_URL').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 bootstrap = Bootstrap(app)
