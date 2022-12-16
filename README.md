@@ -7,4 +7,4 @@ The website that this code actualizes may be found here: https://asteroidticker.
 The website organizes and makes comprehensible available National Aeronautics and Space Administration (NASA) Jet Propulsion Laboratory data from the
 Close Approach Database. <br />
 
-Here you can see a list of asteroids that passed within a set amount of lunar distances (LD) of the Earth.
+Here you can see a list of asteroids that passed within your settings for amount of lunar distances (LD) of the Earth and number of days within a selected time window.
