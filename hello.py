@@ -23,7 +23,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
-SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'hard to guess string'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('HEROKU_POSTGRESQL_CRIMSON_URL').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
