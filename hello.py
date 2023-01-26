@@ -1,4 +1,3 @@
-flash("NASA JPL API is under maintenance. Please try again later.")
 import os
 import click
 from flask.cli import with_appcontext
@@ -19,6 +18,8 @@ import random
 import string
 from flask_sqlalchemy import SQLAlchemy
 from urllib import request as ur
+
+flash("NASA JPL API is under maintenance. Please try again later.")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
