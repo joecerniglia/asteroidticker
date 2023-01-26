@@ -80,7 +80,6 @@ def daysnlunar():
     #for all records
     db.session.query(State).delete()
     db.session.commit()
-    flash("NASA JPL API is under maintenance. Please try again later.")
     #day_selection=[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,'']
     r1, r2 = 3650, 0
     day_selection=createList(r1, r2)
