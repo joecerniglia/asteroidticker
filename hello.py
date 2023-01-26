@@ -1,3 +1,4 @@
+flash("NASA JPL API is under maintenance. Please try again later.")
 import os
 import click
 from flask.cli import with_appcontext
