@@ -19,13 +19,15 @@ import string
 from flask_sqlalchemy import SQLAlchemy
 from urllib import request as ur
 
-@app.before_request
-def func():
-  session.modified = True
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
+
+@app.before_request
+def func():
+  session.modified = True
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'hard to guess string'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('HEROKU_POSTGRESQL_CRIMSON_URL').replace('postgres://', 'postgresql://')
