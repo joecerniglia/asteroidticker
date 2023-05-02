@@ -19,6 +19,10 @@ import string
 from flask_sqlalchemy import SQLAlchemy
 from urllib import request as ur
 
+@app.before_request
+def func():
+  session.modified = True
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
