@@ -54,7 +54,7 @@
 
           
             <select onchange="changeMe(this)" name=daysago id=daysago  method="POST"  action="/" enabled>
-            <option disabled="disabled" value="{{day_selection[0]}}" selected>{{day_selection[0]}}</option>
+            <option disabled="enabled" value="{{day_selection[0]}}" selected>{{day_selection[0]}}</option>
             {% for day in day_selection[1:] %}
                   <option value= "{{day}}" SELECTED>{{day}}</option>"
             {% endfor %}
