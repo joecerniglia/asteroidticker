@@ -8,6 +8,7 @@
 
 {% block head %}
     <h1 align="center"> Comparative Asteroid Report </h1>
+    <h2 align="center"> Comparative Asteroid Report </h2>
     <!-- <h3 align="center"> NASA's JPL Close Approach API is under maintenance. Please try again later. </h3> -->
 {% endblock %}
 
@@ -20,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>{% block title %}Comparative Asteroid Report{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
