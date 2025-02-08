@@ -25,6 +25,11 @@
     <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
 
     <link href="{{ url_for('static', filename='theme.css') }}" rel="stylesheet">
+
+    <div class="container theme-showcase" role="main">
+    {% block content %}{% endblock %}
+    </div> <!-- /container -->
+      
   </head>
     
 {% block content %}
@@ -37,12 +42,6 @@
       of your search.
     </p>
 </div>
-
-<div class="container theme-showcase" role="main">
-
-    {% block content %}{% endblock %}
-
-</div> <!-- /container -->
 
     
 <div class="col-md-6">
