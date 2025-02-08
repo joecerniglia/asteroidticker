@@ -67,21 +67,12 @@
                     parameter. The higher the distance, the more near-Earth objects (NEOs) will be returned:
             </label>
             <br>
-
-            optgroup { 
-            color: red; 
-            } 
-            option { 
-            color: black; 
-            }
          
-            <select style="margin-left: 570px;" onchange="changeMe(this)" name=LD id=LD  method="POST"  action="/" enabled>
+            <select style="margin-left: 570px;" onchange="changeMe(this)" name=LD id=LD  font="#00000" method="POST"  action="/" enabled>
             <option value="{{LD_selection[0]}}" selected>{{LD_selection[0]}}</option>
-            <optgroup label="">
             {% for LD in LD_selection[1:] %}
                   <option value= "{{LD}}" SELECTED>{{LD}}</option>"
             {% endfor %}
-            </optgroup>
             </select>
 
             <p style="font-size:14px;margin-left: 30px;">Sort by:</p>
