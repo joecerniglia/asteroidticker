@@ -43,14 +43,15 @@
     
 <div class="col-md-6">
     <h2 style="margin-left: 40px;">Input Asteroidal Parameters</h2>
+    <br>
 </div>
     <p>
         <form action="{{ url_for("daysnlunar")}}" method="POST" id="daysago" >
             <label for="daysago">Enter the number of days before and after today for which you
             would like to see the top asteroids. <br>
             For the past 24 hours, enter 1:
-
             </label>
+            
             <select onchange="changeMe(this)" name=daysago id=daysago  method="POST"  action="/" enabled>
             <option value="{{day_selection[0]}}" selected>{{day_selection[0]}}</option>
             {% for day in day_selection[1:] %}
