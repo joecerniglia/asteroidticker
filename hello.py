@@ -180,8 +180,10 @@ def daysnlunar():
                 if LD<=50 and daysago<=10:
                     try:
                         if int(miles.replace(',',''))>4000:
-                            ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
-                            report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
+                            #ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
+                            ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
+                            #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
+                            report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
                             report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
                     except ur.HTTPError as e:
