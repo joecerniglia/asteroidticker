@@ -148,11 +148,13 @@ def daysnlunar():
                 if (0 <= n <= 24) and daysago>10:
                     try:
                         #ur.urlopen("https://en.wikipedia.org/wiki/" + object_name.replace(" ","_"))
-                        page = wikipedia.page(object_name.replace(" ","_"))
+                        page = wikipedia.page(object_name.replace(" ","_"), redirect=False)
                         #wiki="https://en.wikipedia.org/wiki/" + object_name.replace(" ","_")
                         wiki = page.url
                     #except ur.HTTPError as e:
                     except wikipedia.exceptions.PageError:
+                         wiki=""
+                    except wikipedia.exceptions.RedirectError as e:
                          wiki=""
                     #except ur.URLError as e:
                     except wikipedia.exceptions.DisambiguationError as e:
