@@ -1,3 +1,4 @@
+import wikipedia
 import os
 import click
 from flask.cli import with_appcontext
@@ -146,8 +147,10 @@ def daysnlunar():
                     dhigh=''
                 if (0 <= n <= 24) and daysago>10:
                     try:
-                        ur.urlopen("https://en.wikipedia.org/wiki/" + object_name.replace(" ","_"))
-                        wiki="https://en.wikipedia.org/wiki/" + object_name.replace(" ","_")
+                        #ur.urlopen("https://en.wikipedia.org/wiki/" + object_name.replace(" ","_"))
+                        page = wikipedia.page(object_name.replace(" ","_")
+                        #wiki="https://en.wikipedia.org/wiki/" + object_name.replace(" ","_")
+                        wiki = page.url
                     except ur.HTTPError as e:
                          wiki=""
                     except ur.URLError as e:
