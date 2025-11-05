@@ -151,9 +151,11 @@ def daysnlunar():
                         page = wikipedia.page(object_name.replace(" ","_"))
                         #wiki="https://en.wikipedia.org/wiki/" + object_name.replace(" ","_")
                         wiki = page.url
-                    except ur.HTTPError as e:
+                    #except ur.HTTPError as e:
+                    except wikipedia.exceptions.PageError:
                          wiki=""
-                    except ur.URLError as e:
+                    #except ur.URLError as e:
+                    except wikipedia.exceptions.DisambiguationError as e:
                          wiki=""
                 else:
                     wiki=""
