@@ -25,3 +25,4 @@ Werkzeug==2.2.2
 WTForms==3.0.1
 zipp==3.10.0
 Psycopg2-binary
+wikipedia==1.4.0
