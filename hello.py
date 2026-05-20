@@ -145,23 +145,31 @@ def daysnlunar():
                     dhigh = str("{0:,.0f}".format((1329/math.sqrt(.05))*(10**(-0.2*float(object[10])))*3280.84))
                 except:
                     dhigh=''
-                if (0 <= n <= 24) and daysago>10:
+                # FIX: Set a custom, descriptive User-Agent required by Wikipedia's policy
+                # Replace the email with your own contact email
+                wikipedia.set_user_agent("MyFlaskCrawlerApp/1.0 (contact: youremail@example.com)")
+                
+                # Your original logic block
+                if (0 <= n <= 24) and daysago > 10:
                     try:
-                        #ur.urlopen("https://en.wikipedia.org/wiki/" + object_name.replace(" ","_"))
-                        page = wikipedia.page(object_name.replace(" ","_"), auto_suggest=False, redirect=False)
-                        #wiki="https://en.wikipedia.org/wiki/" + object_name.replace(" ","_")
+                        # Fetch the page safely without auto-suggest or redirects modifying your target
+                        page = wikipedia.page(object_name.replace(" ", "_"), auto_suggest=False, redirect=False)
                         wiki = page.url
-                    #except ur.HTTPError as e:
+                        
                     except wikipedia.exceptions.PageError:
-                         wiki=""
-                    #except ur.URLError as e:
+                        print(f"Error: Page not found for {object_name}")  # Debug aid
+                        wiki = ""
+                        
                     except wikipedia.exceptions.DisambiguationError as e:
-                         wiki=""
+                        print(f"Error: Disambiguation page. Options: {e.options}")  # Debug aid
+                        wiki = ""
+                        
                     except Exception as e:
-                         wiki=""
+                        # Prints the real error to your Flask console if something else breaks
+                        print(f"Unexpected error crawling Wikipedia: {e}")
+                        wiki = ""
                 else:
-                    wiki=""
-                #HTML will not print out empty strings
+                    wiki = ""                #HTML will not print out empty strings
                 report=report + ['The object named (' + object_name +') ']
                 #if wiki:
                 report=report+[wiki]
