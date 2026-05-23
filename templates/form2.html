@@ -56,23 +56,35 @@
                 {{"Pasadena, CA 91109"}}<br>
                 {{"(The JPL website could also be undergoing maintenance.)"}}
           {% else %}
-              {% for item in report if "2026 JN4" not in item %}
-                  {% if "google" in item %}
-                      <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for details---</a><br>
-                  {% elif "thesky" in item %}
-                      <a href ="{{item}}">Earth-strike long-range forecast</a><br>
-                  {% elif ".spacereference" in item %}
-                      <a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a>
-                      <br>
-                  {% elif item=="break" %}
-                        <br>
-                        <br>
-                  {% elif "wiki" in item %}
-                        <a href ="{{item}}">Wikipedia article</a>
-                  {% else %}
-                        <li>{{item}}</li>
-                  {% endif %}
-              {%endfor%}
+                {% set display = namespace(clean=true) %}
+                {% for item in report %}
+                    {# 1. Detect if a new asteroid block is starting #}
+                    {% if "The object named" in item %}
+                        {# Check if this new asteroid is the one we want to ban #}
+                        {% if "2026 JN4" in item %}
+                            {% set display.clean = false %}
+                        {% else %}
+                            {% set display.clean = true %}
+                        {% endif %}
+                    {% endif %}
+                
+                    {# 2. Only draw the code lines if our tracking flag is true #}
+                    {% if display.clean %}
+                        {% if "google" in item %}
+                            <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for details---</a><br>
+                        {% elif "thesky" in item %}
+                            <a href ="{{item}}">Earth-strike long-range forecast</a><br>
+                        {% elif ".spacereference" in item %}
+                            <a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a> <br>
+                        {% elif item=="break" %}
+                            <br> <br>
+                        {% elif "wiki" in item %}
+                            <a href ="{{item}}">Wikipedia article</a>
+                        {% else %}
+                            <li>{{item}}</li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
           {% endif %}
           </ul>
           <ul class="pagination">
