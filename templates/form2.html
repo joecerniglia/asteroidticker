@@ -56,7 +56,7 @@
                 {{"Pasadena, CA 91109"}}<br>
                 {{"(The JPL website could also be undergoing maintenance.)"}}
           {% else %}
-              {%for item in report%}
+              {% for item in report if "2026 JN4" not in item %}
                   {% if "google" in item %}
                       <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for details---</a><br>
                   {% elif "thesky" in item %}
