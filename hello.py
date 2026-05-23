@@ -290,6 +290,23 @@ def reportout(pagenum):
     report=reportd.fetchall()
     report = eval(report[0][0])
 
+    # === FLAT PYTHON FILTER TRICK ===
+    clean_report = []
+    skip_mode = False
+    
+    for item in report:
+        if "The object named" in item:
+            if "2026 JN4" in item:
+                skip_mode = True
+            else:
+                skip_mode = False
+                
+        if not skip_mode:
+            clean_report = clean_report + [item]
+            
+    report = clean_report
+    # ================================
+  
     column_name='pn'
     query= f'SELECT {column_name} FROM {table_name}'
     pnd=db.session.execute(query)
