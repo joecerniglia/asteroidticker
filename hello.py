@@ -129,6 +129,11 @@ def daysnlunar():
             for n in range(count):
                 object = t['data'][n]
                 object_name=object[0]
+                # === UPDATE JUST THESE THREE LINES INSIDE YOUR LOOP ===
+                if object_name.strip() == "2026 JN4":
+                    count -= 1  # Subtract 1 from the total count so the lastpage math stays aligned!
+                    continue
+                # ======================================================
                 if '99942' in object_name:
                     object_name='99942 Apophis'
                 elif object_name=='153814':
