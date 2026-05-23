@@ -280,79 +280,89 @@ class PageResult:
 
 @app.route('/reportout/<pagenum>', methods=['GET'])
 def reportout(pagenum):
-
-    #time.sleep(6+count*.5)
-    table_name='states'
-
-    column_name='report'
-    query= f'SELECT {column_name} FROM {table_name}'
-    reportd=db.session.execute(query)
-    report=reportd.fetchall()
-    report = eval(report[0][0])
-
-    # === FLAT PYTHON FILTER TRICK ===
-    clean_report = []
-    skip_mode = False
+    pagenum = int(pagenum)
     
-    for item in report:
-        if "The object named" in item:
-            if "2026 JN4" in item:
-                skip_mode = True
-            else:
-                skip_mode = False
-                
-        if not skip_mode:
-            clean_report = clean_report + [item]
+    # 1. Fetch your stored search criteria from the DB
+    state_data = db.session.query(State).first()
+    if not state_data:
+        return redirect(url_for('daysnlunar'))
+        
+    # Re-fetch the data array from NASA securely using saved parameters
+    d1 = str((datetime.utcnow() - timedelta(days=state_data.daysago)).strftime('%Y-%m-%d'))
+    d2 = str((datetime.utcnow() + timedelta(days=state_data.daysago)).strftime('%Y-%m-%d'))
+    sort_type = 'h' if state_data.pn == 18 else 'dist'
+    
+    f = (r"https://nasa.gov" + str(state_data.ld) + "LD&date-min=" + d1 + "&date-max=" + d2 + "&sort=" + sort_type)
+    data = requests.get(f)
+    t = json.loads(data.text)
+    
+    raw_asteroids = t.get('data', [])
+    s1_desc = 'size' if sort_type == 'h' else 'proximity to Earth'
+    
+    # 2. Process and filter the complete dataset BEFORE slicing pages
+    all_clean_lines = []
+    visible_count = 0
+    
+    for idx, object in enumerate(raw_asteroids):
+        object_name = object[0]
+        
+        # === BULLETPROOF ASTEROID FILTER STEP ===
+        if object_name.strip() == "2026 JN4":
+            continue # Drops the entire item instantly before any lines are built!
+        # ========================================
             
-    report = clean_report
-    # ================================
-  
-    column_name='pn'
-    query= f'SELECT {column_name} FROM {table_name}'
-    pnd=db.session.execute(query)
-    pn=pnd.fetchall()
-    pn = int(str(pn[0][0]))
+        visible_count += 1
+        
+        if '99942' in object_name: object_name='99942 Apophis'
+        elif object_name=='153814': object_name='(153814) 2001 WN5'
+        elif object_name=='367943': object_name='367943 Duende'
+        elif object_name=='2019 OD': object_name='2019 OK'
+        
+        try:
+            dlow = str("{0:,.0f}".format((1329/math.sqrt(.25))*(10**(-0.2*float(object[10])))*3280.84))
+            dhigh = str("{0:,.0f}".format((1329/math.sqrt(.05))*(10**(-0.2*float(object[10])))*3280.84))
+        except:
+            dlow, dhigh = '', ''
+            
+        miles = str("{0:,.0f}".format(np.round(float(object[4])*92955807.267433,decimals=2)))
+        
+        # Compile all lines for this valid asteroid
+        all_clean_lines.append('The object named (' + object_name +') ')
+        all_clean_lines.append(' was ' + miles + ' miles from Earth on ' + object[3][:11])
+        all_clean_lines.append('and is between ' + dlow + ' and ' + dhigh + ' feet across.')
+        all_clean_lines.append('Within search parameters, this near-Earth object ranked #' + str(idx + 1) + ' in ' + s1_desc + '.')
+        
+        if state_data.ld <= 50 and state_data.daysago <= 10:
+            all_clean_lines.append("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
+        else:
+            all_clean_lines.append("For skylive weblink, select a time window <=10.")
+            
+        all_clean_lines.append('break')
 
-    column_name='lastpage'
-    query= f'SELECT {column_name} FROM {table_name}'
-    lastpaged=db.session.execute(query)
-    lastpage=lastpaged.fetchall()
-    lastpage = int(str(lastpage[0][0]))
+    # 3. Dynamic layout line slicing for the requested page
+    # Since each asteroid has exactly 6 lines (including 'break'), 2 asteroids = 12 lines
+    start_line_idx = (pagenum - 1) * 12
+    end_line_idx = start_line_idx * 12 + 12
+    page_report_lines = all_clean_lines[start_line_idx:end_line_idx]
+    
+    # 4. Calculate real page counts based on the updated visible dataset
+    calculated_lastpage = math.ceil(visible_count / 2) if visible_count > 0 else 1
 
-    column_name='calday'
-    query= f'SELECT {column_name} FROM {table_name}'
-    caldayd=db.session.execute(query)
-    calday=caldayd.fetchall()
-    calday = str(calday[0][0])
+    class CleanPagination:
+        def __init__(self, page): self.page = page
+    
+    return render_template(
+        'form2.html', 
+        report=page_report_lines, 
+        pagination_state=CleanPagination(pagenum),
+        calday=state_data.calday,
+        complete_date=state_data.complete_date,
+        LD=state_data.ld, 
+        daysago=state_data.daysago,
+        count=visible_count, # Displays the true filtered count on screen
+        lastpage=calculated_lastpage # Directs the Last button flawlessly
+    )
 
-    column_name='complete_date'
-    query= f'SELECT {column_name} FROM {table_name}'
-    complete_dated=db.session.execute(query)
-    complete_date=complete_dated.fetchall()
-    complete_date = str(complete_date[0][0])
-
-    column_name='ld'
-    query= f'SELECT {column_name} FROM {table_name}'
-    LDd=db.session.execute(query)
-    LD=LDd.fetchall()
-    LD=int(str(LD[0][0]))
-
-    column_name='daysago'
-    query= f'SELECT {column_name} FROM {table_name}'
-    daysagod=db.session.execute(query)
-    daysago=daysagod.fetchall()
-    daysago=int(str(daysago[0][0]))
-
-    column_name='count'
-    query= f'SELECT {column_name} FROM {table_name}'
-    countd=db.session.execute(query)
-    count=countd.fetchall()
-    count=int(str(count[0][0]))
-
-    #return str(lastpage)
-    return render_template('form2.html', report=PageResult(report, int(pagenum), pn),
-    calday=calday,complete_date=complete_date,LD=LD,
-    daysago=daysago,count=count,lastpage=int(str(lastpage).replace('.0','')))
 
 @app.errorhandler(500)
 def server_overloaded(error):
