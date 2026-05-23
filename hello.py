@@ -126,6 +126,7 @@ def daysnlunar():
             count = int(t['count'])
             #MAKE A REPORT ABOUT ASTEROIDS
             report=[]
+            actual_count = 0  
             for n in range(count):
                 object = t['data'][n]
                 object_name=object[0]
@@ -225,6 +226,19 @@ def daysnlunar():
                     report=report+["For spacereference weblink, select a time window <=10."]
 
                 report=report+['break']
+                # At the very end of the loop iteration, if an item was successfully added:
+                actual_count += 1 
+            
+            # 2. MOVE THIS MATH OUTSIDE AND BELOW THE FOR-LOOP
+            if actual_count == 0:
+                report = ['None']
+                lastpage = 1
+            else:
+                if actual_count % 2 == 0:
+                    lastpage = int(str(actual_count / 2).replace('.0', ''))
+                else:
+                    lastpage = int(str(actual_count / 2 + (1 - (actual_count % 2 / 2))).replace('.0', ''))
+
             #if LD==1:
                 #ceiling: will need compensation in the form. For example for 27 objects on 3-per-page, this gives 10
             
@@ -245,8 +259,14 @@ def daysnlunar():
             else:
                 pn=18
 
-            state=State(report=str(report), calday=calday, complete_date=complete_date,
-            ld=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
+            state=State(report=str(report), 
+                        calday=calday, 
+                        complete_date=complete_date,
+                        ld=LD, 
+                        daysago=daysago, 
+                        count=actual_count,  
+                        lastpage=lastpage, 
+                        pn=pn)
             db.session.add(state)
             db.session.commit()
 
