@@ -210,14 +210,18 @@ def daysnlunar():
                               req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                               with ur.urlopen(req, timeout=5) as response:
                                   if response.getcode() == 200:
-                                      report.append(url)
+                                      html_content = response.read().decode('utf-8', errors='ignore')
+                                      if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
+                                            report.append("no skylive weblink available")
+                                      else:
+                                            report.append(url)
                                   else:
                                       report.append("no skylive weblink available")
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
                                 # Catches blocks, timeouts, and network drops cleanly
-                                #report.append("no skylive weblink available")
+                                report.append("no skylive weblink available")
                                 #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
-                                report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
+                                #report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
                             #report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
                             report.append("no skylive weblink available")
