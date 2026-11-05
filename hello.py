@@ -215,7 +215,7 @@ def daysnlunar():
                                             report.append(url)
                                     else:
                                         report.append("no skylive weblink available")
-                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
+                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError, ValueError):
                                 report.append("no skylive weblink available")
                         else:
                             # 3. FIXED: Handled full Google Search syntax path and safely joined spaces
