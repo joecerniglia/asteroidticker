@@ -201,7 +201,7 @@ def daysnlunar():
                     try:
                         if int(miles.replace(',',''))>4000:
                             # 1. FIXED: Added forward slash after .com
-                            url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
+                            url = "https://theskylive.com/" + object[0].replace(' ', '').lower() + "-info"
                             try:
                                 req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                                 with ur.urlopen(req, timeout=5) as response:
