@@ -58,18 +58,18 @@
           {% else %}
               {%for item in report%}
                   {% if "google" in item %}
-                      <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for details---</a><br>
+                      <span><a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for details---</a><br></span>
                   {% elif "https://neo.ssa.esa" in item %}
                       <!-- If it's a valid URL, wrap it in an anchor tag so it is clickable -->
-                      <p><a href="{{ item }}"> European Space Agency listing</a>
+                      <span><a href="{{ item }}"> European Space Agency listing</a></span>
                   {% elif ".spacereference" in item %}
-                      <a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a>
+                      <span><a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a></span>
                       <br>
                   {% elif item=="break" %}
                         <br>
                         <br>
                   {% elif "wiki" in item %}
-                        <a href ="{{item}}">Wikipedia article</a>
+                        <span><a href ="{{item}}">Wikipedia article</a></span>
                   {% else %}
                         <li>{{item}}</li>
                   {% endif %}
