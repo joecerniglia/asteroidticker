@@ -203,7 +203,7 @@ def daysnlunar():
                         if int(miles.replace(',',''))>4000:
                             #ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
                             #ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
-                            url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
+                            url = "https://theskylive.com/" + object[0].replace(' ', '').lower() + "-info"
                             try:
                               # Using a timeout prevents your Flask app from hanging indefinitely
                               # info() or a simple request check is lighter than pulling the whole page
