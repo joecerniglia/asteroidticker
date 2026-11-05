@@ -209,19 +209,8 @@ def daysnlunar():
                               # info() or a simple request check is lighter than pulling the whole page
                               req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                               with ur.urlopen(req, timeout=5) as response:
-                                    if response.getcode() == 200:
-                                        # Read the first 15KB of HTML to scan the page text
-                                        html_content = response.read(15000).decode('utf-8', errors='ignore')
-                                        
-                                        # 2. Inspect the text content for the precise site error string
-                                        if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
-                                            report.append("no skylive weblink available")
-                                        else:
-                                            report.append(url)
-                                    else:
-                                        report.append("no skylive weblink available")
-                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
-                                report.append("no skylive weblink available")
+                                  if response.getcode() == 200:
+                                      report.append(url)
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
                                 # Catches blocks, timeouts, and network drops cleanly
                                 #report.append("no skylive weblink available")
