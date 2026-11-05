@@ -201,9 +201,20 @@ def daysnlunar():
                     try:
                         if int(miles.replace(',',''))>4000:
                             #ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
-                            ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
-                            #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
-                            report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
+                            #ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
+                            url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
+                            try:
+                              # Using a timeout prevents your Flask app from hanging indefinitely
+                              # info() or a simple request check is lighter than pulling the whole page
+                              req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                              with ur.urlopen(req, timeout=5) as response:
+                                  if response.getcode() == 200:
+                                      report.append(url)
+                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
+                                # Catches blocks, timeouts, and network drops cleanly
+                                report.append("no skylive weblink available")
+                                #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
+                                report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
                             report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
                     except ur.HTTPError as e:
