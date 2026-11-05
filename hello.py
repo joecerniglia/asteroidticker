@@ -213,7 +213,7 @@ def daysnlunar():
                                       report.append(url)
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
                                 # Catches blocks, timeouts, and network drops cleanly
-                                report.append("no skylive weblink available")
+                                #report.append("no skylive weblink available")
                                 #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
                                 report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
