@@ -212,9 +212,10 @@ def daysnlunar():
                                   if response.getcode() == 200:
                                       html_content = response.read().decode('utf-8', errors='ignore')
                                       #if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
-                                      if "neo" in html_content.lower() or "constellation" in html_content.lower():                                     
+                                      # TRAP BY FILE SIZE: If the page is less than 40KB (40000 bytes),
+                                      # it is just the empty background shell behind the popup.
+                                      if len(raw_data) > 40000:
                                             report.append(url)
-                                            #report.append("no skylive weblink available")
                                       else:
                                             report.append("no skylive weblink available")
                                   else:
