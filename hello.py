@@ -214,7 +214,7 @@ def daysnlunar():
                                     html_content = response.read(5000).decode('utf-8', errors='ignore')
                         
                                     # If the page loads but contains an error message, treat it as a broken link
-                                    if "invalid object name" in html_content.lower() or "object not found" in html_content.lower():
+                                    if "invalid object name" in html_content.lower() or "Object or Resource not Found" in html_content.lower():
                                       report.append("no skylive weblink available")
                                     else:
                                       report.append(url)
