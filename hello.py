@@ -197,39 +197,36 @@ def daysnlunar():
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
                 report=report+['Within search parameters, this near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
+                
                 if LD<=50 and daysago<=10:
                     try:
                         if int(miles.replace(',',''))>4000:
-                            # 1. FIXED: Added forward slash after .com
-                            url = "https://theskylive.com/" + object[0].replace(' ', '').lower() + "-info"
+                            #ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
+                            #ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
+                            url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
                             try:
-                                req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                                with ur.urlopen(req, timeout=5) as response:
-                                    if response.getcode() == 200:
-                                        html_content = response.read(15000).decode('utf-8', errors='ignore')
-                                        
-                                        # 2. Tracks error text on the page securely
-                                        if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
-                                            report.append("no skylive weblink available")
-                                        else:
-                                            report.append(url)
-                                    else:
-                                        report.append("no skylive weblink available")
-                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError, ValueError):
-                                report.append("no skylive weblink available")
+                              # Using a timeout prevents your Flask app from hanging indefinitely
+                              # info() or a simple request check is lighter than pulling the whole page
+                              req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                              with ur.urlopen(req, timeout=5) as response:
+                                  if response.getcode() == 200:
+                                      report.append(url)
+                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
+                                # Catches blocks, timeouts, and network drops cleanly
+                                #report.append("no skylive weblink available")
+                                #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
+                                report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
-                            # 3. FIXED: Handled full Google Search syntax path and safely joined spaces
-                            google_query = object_name.replace(' ', '+')
-                            report.append("https://google.com" + google_query + "+asteroid")
+                            report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
                     except ur.HTTPError as e:
-                        report.append("no skylive weblink available")
+                        #print(e.code)
+                        report=report+["no skylive weblink available"]
                     except ur.URLError as e:
-                        report.append("no skylive weblink available")
+                        #print(e.args)
+                        report=report+["no skylive weblink available"]
                 else:
-                    report.append("For skylive weblink, select a time window <=10.")
-
+                    report=report+["For skylive weblink, select a time window <=10."]
                 if LD<=50 and daysago<=10:
-
                     try:
                         ur.urlopen("https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower())
                         report=report+["https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower()]
