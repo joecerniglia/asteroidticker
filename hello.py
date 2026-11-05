@@ -205,21 +205,21 @@ def daysnlunar():
                             #ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
                             url = "https://theskylive.com/" + object[0].replace(' ', '').lower() + "-info"
                             try:
-                                # Create a custom request handler that strictly blocks auto-redirecting
-                                class NoRedirectHandler(ur.HTTPRedirectHandler):
-                                    def redirect_request(self, req, fp, code, msg, hdrs, newurl):
-                                        # Stop the redirect in its tracks and raise an HTTPError we can trap
-                                        raise ur.HTTPError(req.full_url, code, msg, hdrs, fp)
-
-                                opener = ur.build_opener(NoRedirectHandler)
-                                req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                                
-                                with opener.open(req, timeout=3) as response:
-                                    # If it loads exactly as a 200 OK without trying to redirect, it's a real profile!
-                                    if response.getcode() == 200:
-                                        report.append(url)
-                                    else:
-                                        report.append("no skylive weblink available")
+                              # Using a timeout prevents your Flask app from hanging indefinitely
+                              # info() or a simple request check is lighter than pulling the whole page
+                              req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                              with ur.urlopen(req, timeout=5) as response:
+                                  if response.getcode() == 200:
+                                      html_content = response.read().decode('utf-8', errors='ignore')
+                                      #if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
+                                      # TRAP BY FILE SIZE: If the page is less than 40KB (40000 bytes),
+                                      # it is just the empty background shell behind the popup.
+                                      if len(raw_data) > 40000:
+                                            report.append(url)
+                                      else:
+                                            report.append("no skylive weblink available")
+                                  else:
+                                      report.append("no skylive weblink available")
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
                                 # Catches blocks, timeouts, and network drops cleanly
                                 #report.append("no skylive weblink available")
