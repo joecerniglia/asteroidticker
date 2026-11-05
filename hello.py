@@ -210,6 +210,13 @@ def daysnlunar():
                               req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                               with ur.urlopen(req, timeout=5) as response:
                                   if response.getcode() == 200:
+                                    # Read the first few KB of HTML to check for errors on the page
+                                    html_content = response.read(5000).decode('utf-8', errors='ignore')
+                        
+                                    # If the page loads but contains an error message, treat it as a broken link
+                                    if "invalid object name" in html_content.lower() or "object not found" in html_content.lower():
+                                      report.append("no skylive weblink available")
+                                    else:
                                       report.append(url)
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
                                 # Catches blocks, timeouts, and network drops cleanly
