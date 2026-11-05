@@ -211,6 +211,8 @@ def daysnlunar():
                               with ur.urlopen(req, timeout=5) as response:
                                   if response.getcode() == 200:
                                       report.append(url)
+                                  else:
+                                      report.append("no skylive weblink available")
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
                                 # Catches blocks, timeouts, and network drops cleanly
                                 #report.append("no skylive weblink available")
