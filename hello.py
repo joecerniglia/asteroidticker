@@ -201,7 +201,7 @@ def daysnlunar():
                   try:
                       if int(miles.replace(',',''))>4000:
                           # 1. Ensure the forward slash is included after .com/
-                          url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
+                          url = "https://theskylive.com/" + object[0].replace(' ', '').lower() + "-info"
                           try:
                             req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
                             with ur.urlopen(req, timeout=5) as response:
@@ -219,7 +219,7 @@ def daysnlunar():
                               # 3. FIXED: Cleanly append the fallback string instead of the bad URL
                               report.append("no skylive weblink available")
                       else:
-                          report=report+["https://google.com" + object[0] + "+asteroid"]
+                          report=report+["https://google.com/" + object[0] + "+asteroid"]
                   except ur.HTTPError as e:
                       report=report+["no skylive weblink available"]
                   except ur.URLError as e:
