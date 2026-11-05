@@ -197,42 +197,36 @@ def daysnlunar():
                 report=report+['and is between ' + dlow + ' and ' + dhigh + ' feet across.']
                 report=report+['Within search parameters, this near-Earth object' + timeref + 'ranked #' + str(n+1) + ' in ' + s1_desc + '.']
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
-                
-                if LD<=50 and daysago<=10:
-                    try:
-                        if int(miles.replace(',',''))>4000:
-                            #ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
-                            #ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
-                            url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
-                            try:
-                              # Using a timeout prevents your Flask app from hanging indefinitely
-                              # info() or a simple request check is lighter than pulling the whole page
-                              req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                              with ur.urlopen(req, timeout=5) as response:
-                                  if response.getcode() == 200:
-                                    # Read the first few KB of HTML to check for errors on the page
-                                    html_content = response.read(5000).decode('utf-8', errors='ignore')
-                        
-                                    # If the page loads but contains an error message, treat it as a broken link
-                                    if "invalid object name" in html_content.lower() or "Object or Resource not Found" in html_content.lower():
-                                      report.append("no skylive weblink available")
-                                    else:
-                                      report.append(url)
-                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
-                                # Catches blocks, timeouts, and network drops cleanly
-                                #report.append("no skylive weblink available")
-                                #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
-                                report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
-                        else:
-                            report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
-                    except ur.HTTPError as e:
-                        #print(e.code)
-                        report=report+["no skylive weblink available"]
-                    except ur.URLError as e:
-                        #print(e.args)
-                        report=report+["no skylive weblink available"]
-                else:
-                    report=report+["For skylive weblink, select a time window <=10."]
+                                if LD<=50 and daysago<=10:
+                                  try:
+                                      if int(miles.replace(',',''))>4000:
+                                          # 1. Ensure the forward slash is included after .com/
+                                          url = "https://theskylive.com" + object[0].replace(' ', '').lower() + "-info"
+                                          try:
+                                            req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                                            with ur.urlopen(req, timeout=5) as response:
+                                                if response.getcode() == 200:
+                                                  html_content = response.read(15000).decode('utf-8', errors='ignore')
+                                      
+                                                  # 2. Search for your specific website error text string
+                                                  if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
+                                                    report.append("no skylive weblink available")
+                                                  else:
+                                                    report.append(url)
+                                                else:
+                                                    report.append("no skylive weblink available")
+                                          except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
+                                              # 3. FIXED: Cleanly append the fallback string instead of the bad URL
+                                              report.append("no skylive weblink available")
+                                      else:
+                                          report=report+["https://google.com" + object[0] + "+asteroid"]
+                                  except ur.HTTPError as e:
+                                      report=report+["no skylive weblink available"]
+                                  except ur.URLError as e:
+                                      report=report+["no skylive weblink available"]
+                              else:
+                                  report=report+["For skylive weblink, select a time window <=10."]
+
                 if LD<=50 and daysago<=10:
                     try:
                         ur.urlopen("https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower())
