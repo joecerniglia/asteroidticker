@@ -219,7 +219,8 @@ def daysnlunar():
                                 #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
                                 report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
-                            report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
+                            #report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
+                            report.append("no skylive weblink available")
                     except ur.HTTPError as e:
                         #print(e.code)
                         report=report+["no skylive weblink available"]
