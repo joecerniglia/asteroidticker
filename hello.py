@@ -211,10 +211,12 @@ def daysnlunar():
                               with ur.urlopen(req, timeout=5) as response:
                                   if response.getcode() == 200:
                                       html_content = response.read().decode('utf-8', errors='ignore')
-                                      if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
-                                            report.append("no skylive weblink available")
-                                      else:
+                                      #if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
+                                      if "neo" in html_content.lower() or "constellation" in html_content.lower():                                     
                                             report.append(url)
+                                            #report.append("no skylive weblink available")
+                                      else:
+                                            report.append("no skylive weblink available")
                                   else:
                                       report.append("no skylive weblink available")
                             except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
