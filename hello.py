@@ -211,20 +211,37 @@ def daysnlunar():
                               with ur.urlopen(req, timeout=5) as response:
                                   if response.getcode() == 200:
                                       html_content = response.read().decode('utf-8', errors='ignore')
-                                      #if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
-                                      # TRAP BY FILE SIZE: If the page is less than 40KB (40000 bytes),
-                                      # it is just the empty background shell behind the popup.
-                                      if len(raw_data) > 40000:
-                                            report.append(url)
-                                      else:
-                                            report.append("no skylive weblink available")
-                                  else:
-                                      report.append("no skylive weblink available")
-                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
+                                      # ESCAPE HTML tags so the browser displays the raw code instead of rendering it
+                                      safe_html = html_content.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                                      
+                                      # DISPLAY DIRECTLY ON SCREEN: This stops the app and shows you the raw text
+                                      return f"""
+                                      <html>
+                                      <body style="font-family:monospace; padding:20px; background:#222; color:#fff;">
+                                          <h2>Target URL Checked: <a href="{url}" target="_blank" style="color:#00ffff;">{url}</a></h2>
+                                          <h3>Total Bytes Read: {len(html_content)}</h3>
+                                          <hr>
+                                          <h3>Raw HTML Code Received by Python:</h3>
+                                          <textarea style="width:100%; height:500px; background:#111; color:#0f0; font-family:monospace; padding:10px;">{safe_html}</textarea>
+                                      </body>
+                                      </html>
+                                      """
+                                      ####if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
+                                      #### TRAP BY FILE SIZE: If the page is less than 40KB (40000 bytes),
+                                      #### it is just the empty background shell behind the popup.
+                                      ###if len(raw_data) > 40000:
+                                            ###report.append(url)
+                                      ###else:
+                                            ###report.append("no skylive weblink available")
+                                  ###else:
+                                      ###report.append("no skylive weblink available")
+                            ###except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
+                            except Exception as e:
+                                return f"Python hit an error trying to read the page: {str(e)}"
                                 # Catches blocks, timeouts, and network drops cleanly
                                 #report.append("no skylive weblink available")
                                 #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
-                                report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
+                                ###report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
                         else:
                             #report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
                             report.append("no skylive weblink available")
