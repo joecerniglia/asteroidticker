@@ -61,7 +61,7 @@
                       <a href ="{{item}}" style="color:#FF0000;">---POSSIBLE STRIKE: click here for details---</a><br>
                   {% elif "https://neo.ssa.esa" in item %}
                       <!-- If it's a valid URL, wrap it in an anchor tag so it is clickable -->
-                      <p><a href="{{ item }}" target="_blank" style="color: #337ab7; text-decoration: underline;">{{ item }}</a></p>
+                      <p><a href="{{ item }}"> European Space Agency listing</a>
                   {% elif ".spacereference" in item %}
                       <a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a>
                       <br>
