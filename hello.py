@@ -199,34 +199,18 @@ def daysnlunar():
                 #report=report+["https://watchers.news/?s=" + object[0] + "&post_type=post"]
                 
                 if LD<=50 and daysago<=10:
-                    try:
-                        if int(miles.replace(',','')) > 4000:
-                            # 1. Clean spaces out of the name to match ESA's slug indexing logic (e.g., "2017WJ2")
-                            esa_slug = object_name.replace(' ', '').upper()
-                            url = f"https://neo.ssa.esa.int/search-for-asteroids?sum=1&des={esa_slug}"
-                            
-                            try:
-                                # We request their official, lightweight validation tracking layout header
-                                req = ur.Request(url, headers={'User-Agent': 'MyAsteroidTrackerApp/1.0'})
-                                with ur.urlopen(req, timeout=4) as response:
-                                    if response.getcode() == 200:
-                                        html_content = response.read().decode('utf-8', errors='ignore')
-                                        
-                                        # 2. If the page loads but contains this specific indicator, the object does not exist on ESA
-                                        if "object is not in risk list" in html_content.lower() or "orbital properties" in html_content.lower():
-                                            report.append(url)
-                                        else:
-                                            report.append("no esa weblink available")
-                                    else:
-                                        report.append("no esa weblink available")
-                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError, ValueError):
-                                report.append("no esa weblink available")
-                        else:
-                            report.append("no esa weblink available")
-                    except Exception:
+                    if int(miles.replace(',','')) > 4000:
+                        # Convert to uppercase and strip spaces to match ESA query logic (e.g., 2017WJ2)
+                        esa_slug = object_name.replace(' ', '').upper()
+                        url = f"https://neo.ssa.esa.int/search-for-asteroids?sum=1&des={esa_slug}"
+                        
+                        # Append immediately without network latency
+                        report.append(url)
+                    else:
                         report.append("no esa weblink available")
                 else:
                     report.append("For esa weblink, select a time window <=10.")
+
                 if LD<=50 and daysago<=10:
                     try:
                         ur.urlopen("https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower())
