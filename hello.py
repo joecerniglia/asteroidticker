@@ -200,59 +200,33 @@ def daysnlunar():
                 
                 if LD<=50 and daysago<=10:
                     try:
-                        if int(miles.replace(',',''))>4000:
-                            #ur.urlopen("https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth")
-                            #ur.urlopen("https://theskylive.com/" + object[0].replace(' ','').lower() + "-info")
-                            url = "https://theskylive.com/" + object[0].replace(' ', '').lower() + "-info"
+                        if int(miles.replace(',','')) > 4000:
+                            # 1. Clean spaces out of the name to match ESA's slug indexing logic (e.g., "2017WJ2")
+                            esa_slug = object_name.replace(' ', '').upper()
+                            url = f"https://neo.ssa.esa.int/search-for-asteroids?sum=1&des={esa_slug}"
+                            
                             try:
-                              # Using a timeout prevents your Flask app from hanging indefinitely
-                              # info() or a simple request check is lighter than pulling the whole page
-                              req = ur.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                              with ur.urlopen(req, timeout=5) as response:
-                                  if response.getcode() == 200:
-                                      html_content = response.read().decode('utf-8', errors='ignore')
-                                      # ESCAPE HTML tags so the browser displays the raw code instead of rendering it
-                                      safe_html = html_content.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-                                      
-                                      # DISPLAY DIRECTLY ON SCREEN: This stops the app and shows you the raw text
-                                      return f"""
-                                      <html>
-                                      <body style="font-family:monospace; padding:20px; background:#222; color:#fff;">
-                                          <h2>Target URL Checked: <a href="{url}" target="_blank" style="color:#00ffff;">{url}</a></h2>
-                                          <h3>Total Bytes Read: {len(html_content)}</h3>
-                                          <hr>
-                                          <h3>Raw HTML Code Received by Python:</h3>
-                                          <textarea style="width:100%; height:500px; background:#111; color:#0f0; font-family:monospace; padding:10px;">{safe_html}</textarea>
-                                      </body>
-                                      </html>
-                                      """
-                                      ####if "object or resource not found" in html_content.lower() or "invalid object name" in html_content.lower():
-                                      #### TRAP BY FILE SIZE: If the page is less than 40KB (40000 bytes),
-                                      #### it is just the empty background shell behind the popup.
-                                      ###if len(raw_data) > 40000:
-                                            ###report.append(url)
-                                      ###else:
-                                            ###report.append("no skylive weblink available")
-                                  ###else:
-                                      ###report.append("no skylive weblink available")
-                            ###except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError):
-                            except Exception as e:
-                                return f"Python hit an error trying to read the page: {str(e)}"
-                                # Catches blocks, timeouts, and network drops cleanly
-                                #report.append("no skylive weblink available")
-                                #report=report+["https://theskylive.com/will-asteroid-" + object[0].replace(' ','').lower() + "-impact-earth"]
-                                ###report = report+["https://theskylive.com/" + object[0].replace(' ','').lower() + "-info"]
+                                # We request their official, lightweight validation tracking layout header
+                                req = ur.Request(url, headers={'User-Agent': 'MyAsteroidTrackerApp/1.0'})
+                                with ur.urlopen(req, timeout=4) as response:
+                                    if response.getcode() == 200:
+                                        html_content = response.read().decode('utf-8', errors='ignore')
+                                        
+                                        # 2. If the page loads but contains this specific indicator, the object does not exist on ESA
+                                        if "object is not in risk list" in html_content.lower() or "orbital properties" in html_content.lower():
+                                            report.append(url)
+                                        else:
+                                            report.append("no esa weblink available")
+                                    else:
+                                        report.append("no esa weblink available")
+                            except (ur.HTTPError, ur.URLError, socket.timeout, TimeoutError, ValueError):
+                                report.append("no esa weblink available")
                         else:
-                            #report=report+["https://www.google.com/search?q=" + object[0] + "+asteroid"]
-                            report.append("no skylive weblink available")
-                    except ur.HTTPError as e:
-                        #print(e.code)
-                        report=report+["no skylive weblink available"]
-                    except ur.URLError as e:
-                        #print(e.args)
-                        report=report+["no skylive weblink available"]
+                            report.append("no esa weblink available")
+                    except Exception:
+                        report.append("no esa weblink available")
                 else:
-                    report=report+["For skylive weblink, select a time window <=10."]
+                    report.append("For esa weblink, select a time window <=10.")
                 if LD<=50 and daysago<=10:
                     try:
                         ur.urlopen("https://www.spacereference.org/asteroid/" + object[0].replace(' ','-').lower())
