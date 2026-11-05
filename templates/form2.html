@@ -62,11 +62,9 @@
                   {% elif "https://neo.ssa.esa" in item %}
                       <!-- If it's a valid URL, wrap it in an anchor tag so it is clickable -->
                       <p><a href="{{ item }}" target="_blank" style="color: #337ab7; text-decoration: underline;">{{ item }}</a></p>
-                  {% else %}
+                  {% elif %}
                       <!-- If it's a "no weblink available" fallback string, print it as plain text -->
                       <p style="color: #888; font-style: italic;">{{ item }}</p>
-                  {% endif %}
-
                   {% elif ".spacereference" in item %}
                       <a href ="{{item}}">Space reference impact probabilities (if applicable), images, maps, orbital simulations</a>
                       <br>
