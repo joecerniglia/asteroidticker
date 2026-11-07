@@ -12,7 +12,7 @@ import calendar
 import numpy as np
 import math
 from flask import Flask, request, render_template, redirect, url_for, flash
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField
 import random
@@ -21,6 +21,7 @@ from flask_sqlalchemy import SQLAlchemy
 from urllib import request as ur
 from flask import session
 import socket
+from sqlalchemy import text
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -34,7 +35,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'hard to guess string
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('HEROKU_POSTGRESQL_CRIMSON_URL').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap5(app)
 db = SQLAlchemy(app)
 
 class State(db.Model):
@@ -243,7 +244,7 @@ def daysnlunar():
             else:
                 pn=18
 
-            state=State(report=str(report), calday=calday, complete_date=complete_date,
+            state=State(report=json.dumps(report), calday=calday, complete_date=complete_date,
             ld=LD, daysago=daysago, count=count, lastpage=lastpage, pn=pn)
             db.session.add(state)
             db.session.commit()
@@ -287,49 +288,49 @@ def reportout(pagenum):
 
     column_name='report'
     query= f'SELECT {column_name} FROM {table_name}'
-    reportd=db.session.execute(query)
+    reportd=db.session.execute(text(query))
     report=reportd.fetchall()
-    report = eval(report[0][0])
+    report = json.loads(report[0][0])
 
     column_name='pn'
     query= f'SELECT {column_name} FROM {table_name}'
-    pnd=db.session.execute(query)
+    pnd=db.session.execute(text(query))
     pn=pnd.fetchall()
     pn = int(str(pn[0][0]))
 
     column_name='lastpage'
     query= f'SELECT {column_name} FROM {table_name}'
-    lastpaged=db.session.execute(query)
+    lastpaged=db.session.execute(text(query))
     lastpage=lastpaged.fetchall()
     lastpage = int(str(lastpage[0][0]))
 
     column_name='calday'
     query= f'SELECT {column_name} FROM {table_name}'
-    caldayd=db.session.execute(query)
+    caldayd=db.session.execute(text(query))
     calday=caldayd.fetchall()
     calday = str(calday[0][0])
 
     column_name='complete_date'
     query= f'SELECT {column_name} FROM {table_name}'
-    complete_dated=db.session.execute(query)
+    complete_dated=db.session.execute(text(query))
     complete_date=complete_dated.fetchall()
     complete_date = str(complete_date[0][0])
 
     column_name='ld'
     query= f'SELECT {column_name} FROM {table_name}'
-    LDd=db.session.execute(query)
+    LDd=db.session.execute(text(query))
     LD=LDd.fetchall()
     LD=int(str(LD[0][0]))
 
     column_name='daysago'
     query= f'SELECT {column_name} FROM {table_name}'
-    daysagod=db.session.execute(query)
+    daysagod=db.session.execute(text(query))
     daysago=daysagod.fetchall()
     daysago=int(str(daysago[0][0]))
 
     column_name='count'
     query= f'SELECT {column_name} FROM {table_name}'
-    countd=db.session.execute(query)
+    countd=db.session.execute(text(query))
     count=countd.fetchall()
     count=int(str(count[0][0]))
 
