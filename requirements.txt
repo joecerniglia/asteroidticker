@@ -25,4 +25,5 @@ Werkzeug>=3.0.0
 WTForms>=3.0.1
 zipp
 Psycopg2-binary
+psycopg[binary]
 wikipedia>=1.4.0
